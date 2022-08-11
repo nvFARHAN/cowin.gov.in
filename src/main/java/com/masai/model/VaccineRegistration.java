@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Entity
 @Data
 @AllArgsConstructor
@@ -19,4 +18,6 @@ public class VaccineRegistration {
 	@Id
 	private long mobileno;
 	private LocalDate dateofregistration;
+
+	private Member member;
 }

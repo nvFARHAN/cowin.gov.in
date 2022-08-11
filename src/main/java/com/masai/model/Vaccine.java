@@ -1,7 +1,5 @@
 package com.masai.model;
 
-import java.time.LocalDate;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -20,5 +18,7 @@ public class Vaccine {
 	private String vaccineName;
 	private String description;
 	private VaccineCount vaccinecount;
-	
+
+	private Member member;
+
 }
