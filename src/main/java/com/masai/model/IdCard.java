@@ -30,6 +30,7 @@ public class IdCard {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
+
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "idCard")
 	private Member member;
 
