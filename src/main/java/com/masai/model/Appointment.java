@@ -32,7 +32,7 @@ public class Appointment {
 	private LocalDate dateofbooking;
 	private boolean bookigStatus;
 
-	Slot slot;
+//	Slot slot;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	Member member;
