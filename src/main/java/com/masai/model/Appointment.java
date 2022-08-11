@@ -2,13 +2,14 @@ package com.masai.model;
 
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.validation.constraints.NotNull;
+
+import org.aspectj.weaver.patterns.ConcreteCflowPointcut.Slot;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,22 +24,20 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 public class Appointment {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long bookingID;
 	private long mobileNo;
 	private LocalDate dateofbooking;
 	private boolean bookigStatus;
-	
+
 	Slot slot;
-	
-	@ManyToOne
+
+	@ManyToOne(cascade = CascadeType.ALL)
 	Member member;
-	
-	@OneToOne
+
+	@ManyToOne(cascade = CascadeType.ALL)
 	VaccinationCenter vaccinationCenter;
-	
-	
 
 }
