@@ -3,12 +3,11 @@ package com.masai.model;
 import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -23,7 +22,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Inheritance(strategy = InheritanceType.JOINED)
+//@Inheritance(strategy = InheritanceType.JOINED)
 public class IdCard {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -59,10 +58,10 @@ public class IdCard {
 	@Size(min = 6, max = 8)
 	private String pincode;
 
-	@OneToOne(mappedBy = "idcard")
-	AdharCard adharcard;
+	@Embedded
+	private AdharCard adharcard;
 
-	@OneToOne(mappedBy = "idcard")
-	PanCard pancard;
+	@Embedded
+	private PanCard pancard;
 
 }
