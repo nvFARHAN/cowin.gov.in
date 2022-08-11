@@ -7,7 +7,12 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +25,9 @@ import lombok.NoArgsConstructor;
 public class VaccineInventory {
 
 	@Id
-	@Pattern(regexp = "^(3[01]|[12][0-9]|0[1-9])-(1[0-2]|0[1-9])-[0-9]{4}$",message="Invalid formate of Date dd-mm-yyyy")
+	@JsonFormat(pattern = "dd-MM-yyyy")
+	@NotNull(message = "Date should not be Null")
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	private LocalDate date;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "vaccineInventory")

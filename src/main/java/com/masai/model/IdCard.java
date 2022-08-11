@@ -14,6 +14,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,7 +35,9 @@ public class IdCard {
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "idCard")
 	private Member member;
 
-	@Pattern(regexp = "^(3[01]|[12][0-9]|0[1-9])-(1[0-2]|0[1-9])-[0-9]{4}$")
+	@JsonFormat(pattern = "dd-MM-yyyy")
+	@NotNull(message = "Date of Birth should not be Null")
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	private LocalDate dob;
 
 	@NotBlank(message = "Gender is Mandatory")

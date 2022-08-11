@@ -11,6 +11,11 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,7 +33,9 @@ public class VaccineRegistration {
 	private long mobileno;
 	
 	@NotBlank(message = "Date of Registration is Mandatory")
-	@Pattern(regexp = "^(3[01]|[12][0-9]|0[1-9])-(1[0-2]|0[1-9])-[0-9]{4}$",message="Invalid formate of Date dd-mm-yyyy")
+    @JsonFormat(pattern = "dd-MM-yyyy")
+	@NotNull(message = "Date of Registration should not be Null")
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	private LocalDate dateofregistration;
 
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "vaccineRegistration")
