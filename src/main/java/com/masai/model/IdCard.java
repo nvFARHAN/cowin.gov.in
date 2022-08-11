@@ -63,6 +63,7 @@ public class IdCard {
 
 	@Embedded
 	private AdharCard adharCard;
+
 	@Embedded
 	private PanCard panCard;
 }

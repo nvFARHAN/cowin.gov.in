@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import org.aspectj.weaver.patterns.ConcreteCflowPointcut.Slot;
+import com.masai.enums.Slot;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
