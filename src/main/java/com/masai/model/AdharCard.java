@@ -1,6 +1,7 @@
 package com.masai.model;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -15,6 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 public class AdharCard {
+	@Id
 	@NotNull
 	@NotBlank
 	@Size(max = 14, message = "Addhar card number length is maximum 12!")
