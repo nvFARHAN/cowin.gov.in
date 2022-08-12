@@ -57,5 +57,11 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(err, HttpStatus.NOT_FOUND);
 
 	}
+	
+	@ExceptionHandler(MemberNotFoundException.class)
+	public ResponseEntity<MyErrorDetails> myIllegalHandler(MemberNotFoundException me,WebRequest req) {
+	MyErrorDetails err=new MyErrorDetails(LocalDateTime.now(), me.getMessage(), req.getDescription(false));
+	return new ResponseEntity<>(err,HttpStatus.BAD_REQUEST);
+	}
 
 }
