@@ -5,10 +5,11 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -25,6 +26,9 @@ import lombok.NoArgsConstructor;
 public class VaccineInventory {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer vaccineInventoryId;
+	
 	@JsonFormat(pattern = "dd-MM-yyyy")
 	@NotNull(message = "Date should not be Null")
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
