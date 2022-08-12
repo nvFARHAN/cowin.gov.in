@@ -32,8 +32,7 @@ public class IdCard {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 
-	@OneToOne(cascade = CascadeType.ALL, mappedBy = "idCard")
-	private Member member;
+	
 
 	@JsonFormat(pattern = "dd-MM-yyyy")
 	@NotNull(message = "Date of Birth should not be Null")
@@ -64,10 +63,13 @@ public class IdCard {
 	@Size(min = 6, max = 8)
 	private String pincode;
 
-	@Embedded
-	private AdharCard adharcard;
-
-	@Embedded
-	private PanCard pancard;
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "idCard")
+	private Member member;
+	
+	@OneToOne(mappedBy = "idcard")
+	AdharCard adharcard;
+	
+	@OneToOne(mappedBy = "idcard")
+	PanCard pancard;
 
 }

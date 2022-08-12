@@ -7,15 +7,32 @@ import org.springframework.expression.spel.support.ReflectivePropertyAccessor.Op
 import org.springframework.stereotype.Service;
 
 import com.masai.exceptions.MemberNotFoundException;
+import com.masai.model.AdharCard;
 import com.masai.model.IdCard;
 import com.masai.model.Member;
+import com.masai.model.PanCard;
+import com.masai.repository.AdharcardDao;
+import com.masai.repository.IdCardDao;
 import com.masai.repository.MemberDao;
+import com.masai.repository.PancardDao;
+
 
 @Service
 public class MemberServiceImpl implements MemberService {
 
 	@Autowired
 	MemberDao dao;
+	
+	@Autowired
+	IdCardDao idDao;
+	
+	@Autowired
+	AdharcardDao aDao;
+	
+	@Autowired
+	PancardDao panDao;
+	
+	
 
 	@Override
 	public Member addMember(Member member) {
@@ -37,21 +54,46 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public Member getMemberByAdharNo(long adharno) throws MemberNotFoundException{
+		AdharCard adharcard=aDao.findAdharcardByadharNo(adharno);
+		if(adharcard==null)
+			throw new MemberNotFoundException("Member not found  with the panNo:"+adharno);
+		else {
+		IdCard idcard=idDao.findByAdharcard(adharcard);
+		if(idcard==null)
+			throw new MemberNotFoundException("Member not found  with the adharNo id:"+adharno);
+		else {
+			Optional<Member> mbyId=dao.findById(idcard.getId());
+			if(mbyId.isPresent())
+				return mbyId.get();
+			else
+				 throw new MemberNotFoundException("Member not found  ");
+		}
+		}	
 		
-//		Optional<IdCard> mbyId=dao.findByAdharNo(adharno);
-//		if(mbyId.isPresent())
-//			return mbyId.get();
-//		else
-//			 throw new MemberNotFoundException("Member not found");		
-		return null;
 	}
 
 	
 
 	@Override
 	public Member getMemberByPanNo(String panNo) throws MemberNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<PanCard> pancard=panDao.findById(panNo);
+		if(pancard==null)
+			throw new MemberNotFoundException("Member not found  with the panNo:"+panNo);
+		else {
+			IdCard idcard=idDao.findByPancard(pancard);
+			if(idcard==null)
+				throw new MemberNotFoundException("Member not found idcard with the  panNo:"+panNo);
+			else
+			{
+			Optional<Member> mbyId=dao.findById(idcard.getId());
+			if(mbyId.isPresent())
+				return mbyId.get();
+			else
+				 throw new MemberNotFoundException("Member not found  with ");
+		}
+		}
+		
+		
 	}
 
 	@Override

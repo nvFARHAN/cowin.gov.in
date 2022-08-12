@@ -24,19 +24,19 @@ public class MemberController {
 		return memberService.addMember(member);
 	}
 	
-	@GetMapping("/member/{idcardId}")
+	@GetMapping("/member/idcardid/{idcardId}")
 	public Member getMemberById(@PathVariable("idcardId") Integer idcardId) throws MemberNotFoundException
 	{
 		return memberService.getMemberById(idcardId);
 	}
 	
-	@GetMapping("/member/{adharNo}")
+	@GetMapping("/member/adharno/{adharNo}")
 	public Member getMemberByAdharNo(@PathVariable("adharNo") long adharNo) throws MemberNotFoundException
 	{
 		return memberService.getMemberByAdharNo(adharNo);
 	}
 	
-	@GetMapping("/member/{panNo}")
+	@GetMapping("/member/panno/{panNo}")
 	public Member getMemberByAdharNo(@PathVariable("panNo") String panNo) throws MemberNotFoundException
 	{
 		return memberService.getMemberByPanNo(panNo);
@@ -48,7 +48,7 @@ public class MemberController {
 		return memberService.updateMember(member);
 	}
 	
-	@DeleteMapping("/member")
+	@DeleteMapping("/member/delete")
 	public boolean deleteMember(@RequestBody Member member) throws MemberNotFoundException
 	{    
 		return memberService.deleteMember(member);
