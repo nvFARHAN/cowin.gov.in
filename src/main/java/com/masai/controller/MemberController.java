@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.masai.exceptions.MemberNotFoundException;
 import com.masai.model.Member;
+import com.masai.service.IdCardService;
 import com.masai.service.MemberService;
 
 @RestController
@@ -18,6 +19,9 @@ public class MemberController {
 
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private IdCardService idservice;
 
 	@PostMapping("/member")
 	public Member saveMember(@RequestBody Member member) {
@@ -37,7 +41,7 @@ public class MemberController {
 	}
 	
 	@GetMapping("/member/panno/{panNo}")
-	public Member getMemberByAdharNo(@PathVariable("panNo") String panNo) throws MemberNotFoundException
+	public Member getMemberByPanNo(@PathVariable("panNo") String panNo) throws MemberNotFoundException
 	{
 		return memberService.getMemberByPanNo(panNo);
 	}

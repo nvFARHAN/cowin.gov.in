@@ -31,10 +31,10 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public Member getMemberById(int idcardid) throws MemberNotFoundException {
-
-		Optional<Member> mbyId = dao.findById(idcardid);
-		if (mbyId.isPresent())
-			return mbyId.get();
+		Optional<IdCard> idcard=idDao.findById(idcardid);
+		Member mbyId = dao.findByIdCard(idcard);
+		if (mbyId!=null)
+			return mbyId;
 		else
 			throw new MemberNotFoundException("Member not found  with the idcard id:" + idcardid);
 	}
@@ -63,31 +63,24 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public Member getMemberByAdharNo(long adharno) throws MemberNotFoundException {
 		IdCard idcard = idDao.findByAdharcard(new AdharCard(adharno));
-		if (idcard == null)
-			throw new MemberNotFoundException("Member not found  with the adharNo id:" + adharno);
-		else {
-			Optional<Member> mbyId = dao.findById(idcard.getId());
-			if (mbyId.isPresent())
-				return mbyId.get();
+		Optional<IdCard> idcard1=idDao.findById(idcard.getId());
+		Member mbyId = dao.findByIdCard(idcard1);
+			if (mbyId!=null)
+				return mbyId;
 			else
 				throw new MemberNotFoundException("Member not found  ");
-		}
+
 	}
 
 	@Override
 	public Member getMemberByPanNo(String panNo) throws MemberNotFoundException {
 		IdCard idcard = idDao.findByPancard(new PanCard(panNo));
-		
-			if (idcard == null)
-				throw new MemberNotFoundException("Member not found idcard with the  panNo:" + panNo);
-			else {
-				Optional<Member> mbyId = dao.findById(idcard.getId());
-				if (mbyId.isPresent())
-					return mbyId.get();
+		Optional<IdCard> id=idDao.findById(idcard.getId());
+				Member mbyId = dao.findByIdCard(id);
+				if (mbyId!=null)
+					return mbyId;
 				else
 					throw new MemberNotFoundException("Member not found  with ");
 			}
-		}
-	
 
 }
