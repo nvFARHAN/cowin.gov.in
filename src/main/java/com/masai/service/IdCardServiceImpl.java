@@ -45,6 +45,7 @@ public class IdCardServiceImpl implements IdCardService {
 		IdCard id2 = idDao.findByAdharcard(idCard.getAdharcard());
 		if (id2 != null)
 			throw new IdCardException("Id card already exist with the id : " + idCard.getAdharcard());
+
 		return idDao.save(idCard);
 	}
 
