@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.masai.exceptions.MemberNotFoundException;
+import com.masai.model.AdharCard;
+import com.masai.model.IdCard;
 import com.masai.model.Member;
+import com.masai.model.PanCard;
 import com.masai.repository.IdCardDao;
 import com.masai.repository.MemberDao;
 
@@ -22,9 +25,8 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public Member addMember(Member member) {
 
-		Member m = dao.save(member);
-
-		return m;
+			return dao.save(member);
+		
 	}
 
 	@Override
@@ -37,45 +39,7 @@ public class MemberServiceImpl implements MemberService {
 			throw new MemberNotFoundException("Member not found  with the idcard id:" + idcardid);
 	}
 
-//	@Override
-//	public Member getMemberByAdharNo(long adharno) throws MemberNotFoundException {
-//		AdharCard adharcard = aDao.findAdharcardByadharNo(adharno);
-//		if (adharcard == null)
-//			throw new MemberNotFoundException("Member not found  with the panNo:" + adharno);
-//		else {
-//			IdCard idcard = idDao.findByAdharcard(adharcard);
-//			if (idcard == null)
-//				throw new MemberNotFoundException("Member not found  with the adharNo id:" + adharno);
-//			else {
-//				Optional<Member> mbyId = dao.findById(idcard.getId());
-//				if (mbyId.isPresent())
-//					return mbyId.get();
-//				else
-//					throw new MemberNotFoundException("Member not found  ");
-//			}
-//		}
-//
-//	}
 
-//	@Override
-//	public Member getMemberByPanNo(String panNo) throws MemberNotFoundException {
-//		Optional<PanCard> pancard = panDao.findById(panNo);
-//		if (pancard == null)
-//			throw new MemberNotFoundException("Member not found  with the panNo:" + panNo);
-//		else {
-//			IdCard idcard = idDao.findByPancard(pancard);
-//			if (idcard == null)
-//				throw new MemberNotFoundException("Member not found idcard with the  panNo:" + panNo);
-//			else {
-//				Optional<Member> mbyId = dao.findById(idcard.getId());
-//				if (mbyId.isPresent())
-//					return mbyId.get();
-//				else
-//					throw new MemberNotFoundException("Member not found  with ");
-//			}
-//		}
-//
-//	}
 
 	@Override
 	public Member updateMember(Member member) throws MemberNotFoundException {
@@ -98,14 +62,32 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public Member getMemberByAdharNo(long adharno) throws MemberNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		IdCard idcard = idDao.findByAdharcard(new AdharCard(adharno));
+		if (idcard == null)
+			throw new MemberNotFoundException("Member not found  with the adharNo id:" + adharno);
+		else {
+			Optional<Member> mbyId = dao.findById(idcard.getId());
+			if (mbyId.isPresent())
+				return mbyId.get();
+			else
+				throw new MemberNotFoundException("Member not found  ");
+		}
 	}
 
 	@Override
 	public Member getMemberByPanNo(String panNo) throws MemberNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		IdCard idcard = idDao.findByPancard(new PanCard(panNo));
+		
+			if (idcard == null)
+				throw new MemberNotFoundException("Member not found idcard with the  panNo:" + panNo);
+			else {
+				Optional<Member> mbyId = dao.findById(idcard.getId());
+				if (mbyId.isPresent())
+					return mbyId.get();
+				else
+					throw new MemberNotFoundException("Member not found  with ");
+			}
+		}
+	
 
 }
