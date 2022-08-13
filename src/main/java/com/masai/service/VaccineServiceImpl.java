@@ -3,10 +3,13 @@ package com.masai.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 import com.masai.exceptions.VaccineNotFoundException;
 import com.masai.model.Vaccine;
 import com.masai.repository.VaccineDao;
 
+@Service
 public class VaccineServiceImpl implements VaccineService{
 	
 	private VaccineDao dao;
