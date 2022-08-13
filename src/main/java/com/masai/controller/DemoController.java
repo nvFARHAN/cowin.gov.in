@@ -13,14 +13,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.masai.model.IdCard;
 import com.masai.model.VaccinationCenter;
+import com.masai.model.Vaccine;
 import com.masai.service.IdCardService;
 import com.masai.service.VaccinationCenterService;
+import com.masai.service.VaccineService;
 
 @RestController
 public class DemoController {
 
 	@Autowired
 	private VaccinationCenterService vaccinationCenterService;
+	
+	@Autowired
+	private VaccineService vaccineserv;
 
 	@Autowired
 	private IdCardService cardService;
@@ -46,4 +51,8 @@ public class DemoController {
 		return new ResponseEntity<IdCard>(cardService.getIdcardByPanNo(panNo), HttpStatus.FOUND);
 	}
 
+	@PostMapping("/vaccine/add")
+	public ResponseEntity<Vaccine> addVaccine(@RequestBody Vaccine vaccine){
+		return new ResponseEntity<Vaccine>(vaccineserv.addVaccine(vaccine), HttpStatus.ACCEPTED);		
+	}
 }
