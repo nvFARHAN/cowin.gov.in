@@ -16,6 +16,31 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+	@ExceptionHandler(IdCardException.class)
+	public ResponseEntity<MyErrorDetails> idCardExceptionHandler(IdCardException ex, WebRequest req) {
+		MyErrorDetails err = new MyErrorDetails(LocalDateTime.now(), ex.getMessage(), req.getDescription(false));
+		return new ResponseEntity<MyErrorDetails>(err, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(IdCardNotFoundException.class)
+	public ResponseEntity<MyErrorDetails> idCardNotFoundExceptionHandler(IdCardNotFoundException ex, WebRequest req) {
+		MyErrorDetails err = new MyErrorDetails(LocalDateTime.now(), ex.getMessage(), req.getDescription(false));
+		return new ResponseEntity<MyErrorDetails>(err, HttpStatus.NOT_FOUND);
+	}
+
+	@ExceptionHandler(VaccineCenterException.class)
+	public ResponseEntity<MyErrorDetails> vaccineCenterExceptionHandler(VaccineCenterException ex, WebRequest req) {
+		MyErrorDetails err = new MyErrorDetails(LocalDateTime.now(), ex.getMessage(), req.getDescription(false));
+		return new ResponseEntity<MyErrorDetails>(err, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(VaccineCenterNotFoundException.class)
+	public ResponseEntity<MyErrorDetails> vaccineCenterNotFoundExceptionHandler(VaccineCenterNotFoundException ex,
+			WebRequest req) {
+		MyErrorDetails err = new MyErrorDetails(LocalDateTime.now(), ex.getMessage(), req.getDescription(false));
+		return new ResponseEntity<MyErrorDetails>(err, HttpStatus.NOT_FOUND);
+	}
+
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<MyErrorDetails> myExpHandlerMain(Exception ie, WebRequest wr) {
 		System.out.println("inside myHandler method...EXP");

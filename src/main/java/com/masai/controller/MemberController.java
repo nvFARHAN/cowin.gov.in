@@ -22,6 +22,8 @@ public class MemberController {
 	
 	@Autowired
 	private IdCardService idservice;
+	
+	
 
 	@PostMapping("/member")
 	public Member saveMember(@RequestBody Member member) {

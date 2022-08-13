@@ -10,8 +10,10 @@ import com.masai.model.AdharCard;
 import com.masai.model.IdCard;
 import com.masai.model.Member;
 import com.masai.model.PanCard;
+import com.masai.model.VaccineRegistration;
 import com.masai.repository.IdCardDao;
 import com.masai.repository.MemberDao;
+import com.masai.repository.VaccineRegistrationDao;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -21,6 +23,9 @@ public class MemberServiceImpl implements MemberService {
 
 	@Autowired
 	IdCardDao idDao;
+	
+	@Autowired
+	VaccineRegistrationDao vrDao;
 
 	@Override
 	public Member addMember(Member member) {
@@ -29,6 +34,12 @@ public class MemberServiceImpl implements MemberService {
 			{Optional<IdCard> idcard=idDao.findById(member.getIdCard().getId());
 		member.setIdCard(idcard.get());}
 		}
+		if(member.getVaccineRegistration()!=null)
+		{    VaccineRegistration vi=member.getVaccineRegistration();
+			VaccineRegistration vr=vrDao.findBymobileno(vi.getMobileno());
+			member.setVaccineRegistration(vr);
+		}
+	
 		
 			return dao.save(member);
 		
@@ -60,16 +71,14 @@ public class MemberServiceImpl implements MemberService {
 				exist.setDose2Date(member.getDose2Date());	
 			    if(exist.getDose1Date()!=null)
 			    	exist.setDose1Status(true);
-			    else
-			    	exist.setDose1Status(false);
 			    if(exist.getDose2Date()!=null)
 			    	exist.setDose2Status(true);
-			    else
-			    	exist.setDose2Status(false);
+			   
+			   
+	
 				if(member.getIdCard()!=null)
 				{
-					Optional<IdCard> idcard1=idDao.findById(member.getIdCard().getId());
-					IdCard id=idcard1.get();
+					IdCard id=exist.getIdCard();
 					if(member.getIdCard().getDob()!=null)
 						id.setDob(member.getIdCard().getDob());
 				  if(member.getIdCard().getCity()!=null)
@@ -78,17 +87,32 @@ public class MemberServiceImpl implements MemberService {
 					  id.setGender(member.getIdCard().getGender());
 				  if(member.getIdCard().getAddress()!=null)
 					  id.setAddress(member.getIdCard().getAddress());
-				  if(member.getIdCard().getAdharcard()!=null)
-					  id.setAdharcard(member.getIdCard().getAdharcard());
-				  if(member.getIdCard().getPancard()!=null)
-//					  if(member.getIdCard().getPancard().getPanNo()!=null)
-//					  id.setPancard(member.getIdCard().getPancard().getPanNo());
-//				  if(member.getIdCard().getPincode()!=null)
-//					  id.setPincode(member.getIdCard().getPincode());
+				  if(member.getIdCard().getPincode()!=null)
+					  id.setPincode(member.getIdCard().getPincode());
 				  if(member.getIdCard().getState()!=null)
 					  id.setState(member.getIdCard().getState());
-						  ;
+				  
+				  if(member.getIdCard().getAdharcard()!=null)
+				  {
+					  AdharCard adar=exist.getIdCard().getAdharcard();
+					  adar.setAdharNo(member.getIdCard().getAdharcard().getAdharNo());
+				  }
+					
+				  if(member.getIdCard().getPancard()!=null)
+				  {
+					  PanCard pan=exist.getIdCard().getPancard();
+					  pan.setPanNo(member.getIdCard().getPancard().getPanNo());
+				  }
+					 
+				 		  ;
 				}
+				
+//				if(member.getVaccineRegistration()!=null)
+//				{
+//					VaccineRegistration vreg=exist.getVaccineRegistration();
+//					
+//					vreg.setMobileno(member.getVaccineRegistration().getMobileno());
+//				}
 			return dao.save(exist);}
 		else
 			throw new MemberNotFoundException("Member not found with the member id :" + member.getMemberId());
