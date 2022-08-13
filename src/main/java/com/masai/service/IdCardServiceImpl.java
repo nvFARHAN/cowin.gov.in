@@ -1,10 +1,10 @@
 package com.masai.service;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.masai.exceptions.IdCardException;
+import com.masai.exceptions.IdCardNotFoundException;
 import com.masai.exceptions.MemberNotFoundException;
 import com.masai.model.AdharCard;
 import com.masai.model.IdCard;
@@ -22,7 +22,7 @@ public class IdCardServiceImpl implements IdCardService {
 
 		IdCard idcard = idDao.findByPancard(new PanCard(panNo));
 		if (idcard == null)
-			throw new MemberNotFoundException("Member not found idcard with the  panNo:" + panNo);
+			throw new IdCardNotFoundException("Idcard not found with the  panNo:" + panNo);
 		else
 			return idcard;
 	}
@@ -32,15 +32,19 @@ public class IdCardServiceImpl implements IdCardService {
 
 		IdCard idcard = idDao.findByAdharcard(new AdharCard(adharno));
 		if (idcard == null)
-			throw new MemberNotFoundException("Member not found  with the adharNo id:" + adharno);
+			throw new IdCardNotFoundException("IdCard not found with the adharNo :" + adharno);
 		else
 			return idcard;
 	}
 
 	@Override
 	public IdCard addIdCard(IdCard idCard) {
-		Optional<IdCard> opt = idDao.findById(idCard.getId());
-
+		IdCard id = idDao.findByPancard(idCard.getPancard());
+		if (id != null)
+			throw new IdCardException("Id card already exist with the id : " + idCard.getPancard());
+		IdCard id2 = idDao.findByAdharcard(idCard.getAdharcard());
+		if (id2 != null)
+			throw new IdCardException("Id card already exist with the id : " + idCard.getAdharcard());
 		return idDao.save(idCard);
 	}
 

@@ -10,6 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,10 +22,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class IdCard {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 
+	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy")
 	private LocalDate dob;
 
 	private String gender;
@@ -38,11 +43,9 @@ public class IdCard {
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "idCard")
 	private Member member;
 
-//	@OneToOne(mappedBy = "idcard")
 	@Embedded
 	AdharCard adharcard;
 
-//	@OneToOne(mappedBy = "idcard")
 	@Embedded
 	PanCard pancard;
 
