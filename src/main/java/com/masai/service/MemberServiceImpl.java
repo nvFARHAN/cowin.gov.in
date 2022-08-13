@@ -24,8 +24,14 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public Member addMember(Member member) {
-
+		if(member.getIdCard()!=null)
+		{if(member.getIdCard().getId()!=null)
+			{Optional<IdCard> idcard=idDao.findById(member.getIdCard().getId());
+		member.setIdCard(idcard.get());}
+		}
+		
 			return dao.save(member);
+		
 		
 	}
 
@@ -45,7 +51,45 @@ public class MemberServiceImpl implements MemberService {
 	public Member updateMember(Member member) throws MemberNotFoundException {
 		Optional<Member> mId = dao.findById(member.getMemberId());
 		if (mId.isPresent())
-			return dao.save(member);
+		{
+			Member exist=mId.get();
+			
+			if(member.getDose1Date()!=null)
+				exist.setDose1Date(member.getDose1Date());
+			if(member.getDose2Date()!=null)
+				exist.setDose2Date(member.getDose2Date());	
+			    if(exist.getDose1Date()!=null)
+			    	exist.setDose1Status(true);
+			    else
+			    	exist.setDose1Status(false);
+			    if(exist.getDose2Date()!=null)
+			    	exist.setDose2Status(true);
+			    else
+			    	exist.setDose2Status(false);
+				if(member.getIdCard()!=null)
+				{
+					Optional<IdCard> idcard1=idDao.findById(member.getIdCard().getId());
+					IdCard id=idcard1.get();
+					if(member.getIdCard().getDob()!=null)
+						id.setDob(member.getIdCard().getDob());
+				  if(member.getIdCard().getCity()!=null)
+					    id.setCity(member.getIdCard().getCity());
+				  if(member.getIdCard().getGender()!=null)
+					  id.setGender(member.getIdCard().getGender());
+				  if(member.getIdCard().getAddress()!=null)
+					  id.setAddress(member.getIdCard().getAddress());
+				  if(member.getIdCard().getAdharcard()!=null)
+					  id.setAdharcard(member.getIdCard().getAdharcard());
+				  if(member.getIdCard().getPancard()!=null)
+//					  if(member.getIdCard().getPancard().getPanNo()!=null)
+//					  id.setPancard(member.getIdCard().getPancard().getPanNo());
+//				  if(member.getIdCard().getPincode()!=null)
+//					  id.setPincode(member.getIdCard().getPincode());
+				  if(member.getIdCard().getState()!=null)
+					  id.setState(member.getIdCard().getState());
+						  ;
+				}
+			return dao.save(exist);}
 		else
 			throw new MemberNotFoundException("Member not found with the member id :" + member.getMemberId());
 	}
@@ -54,6 +98,10 @@ public class MemberServiceImpl implements MemberService {
 	public boolean deleteMember(Member member) throws MemberNotFoundException {
 		Optional<Member> mId = dao.findById(member.getMemberId());
 		if (mId.isPresent()) {
+			Member exist=mId.get();
+//			Optional<IdCard> id=idDao.findById(exist.getIdCard().getId());
+//			IdCard exid=id.get();
+			idDao.delete(exist.getIdCard());
 			dao.delete(member);
 			return true;
 		} else
@@ -82,5 +130,7 @@ public class MemberServiceImpl implements MemberService {
 				else
 					throw new MemberNotFoundException("Member not found  with ");
 			}
+
+	
 
 }

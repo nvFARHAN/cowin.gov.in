@@ -12,6 +12,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -43,7 +46,17 @@ public class Member {
 
 	private boolean dose1Status;
 	private boolean dose2Status;
+	
+//	@NotBlank(message = "Date of Registration is Mandatory")
+    @JsonFormat(pattern = "dd-MM-yyyy")
+//	@NotNull(message = "Date of Registration should not be Null")
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	private LocalDate dose1Date;
+    
+//	@NotBlank(message = "Date of Registration is Mandatory")
+    @JsonFormat(pattern = "dd-MM-yyyy")
+//	@NotNull(message = "Date of Registration should not be Null")
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	private LocalDate dose2Date;
 
 }

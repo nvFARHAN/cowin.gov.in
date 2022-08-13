@@ -31,6 +31,7 @@ public class VaccinationCenterServiceImpl implements VaccinationCenterService {
 	@Override
 	public VaccinationCenter addVaccineCenter(VaccinationCenter center) {
 
+		
 		Optional<VaccinationCenter> vc = dao.findById(center.getCode());
 
 		if (vc.isPresent()) {

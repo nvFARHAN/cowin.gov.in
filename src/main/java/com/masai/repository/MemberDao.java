@@ -15,5 +15,6 @@ public interface MemberDao extends JpaRepository<Member, Integer> {
 	
 	public Member findByIdCard(Optional<IdCard> idcard);
 
-//	public Member findByIdCardno(IdCard idcard);
+
+
 }

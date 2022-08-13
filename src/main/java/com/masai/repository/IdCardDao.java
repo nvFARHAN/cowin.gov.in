@@ -16,4 +16,8 @@ public interface IdCardDao extends JpaRepository<IdCard, Integer> {
 
 	
 
+	
+
+	
+
 }
