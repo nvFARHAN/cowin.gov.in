@@ -17,19 +17,21 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 public class VaccineInventory {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	
 	private Integer vaccineInventoryId;
 	
-	@JsonFormat(pattern = "dd-MM-yyyy")
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	@NotNull(message = "Date should not be Null")
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	private LocalDate date;

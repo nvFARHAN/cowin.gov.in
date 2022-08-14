@@ -12,14 +12,18 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 public class VaccinationCenter {
 
 	@Id
@@ -53,6 +57,7 @@ public class VaccinationCenter {
 	private List<Appointment> appointments;
 
 	@ManyToOne(cascade = CascadeType.ALL)
+	@JsonIgnore
 	private VaccineInventory vaccineInventory;
 
 }

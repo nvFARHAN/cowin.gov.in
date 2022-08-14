@@ -21,8 +21,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class IdCard {
-	@Id
+
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Id
 	private Integer id;
 
 	private LocalDate dob;

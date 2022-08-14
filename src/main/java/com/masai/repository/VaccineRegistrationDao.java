@@ -6,5 +6,6 @@ import com.masai.model.VaccineRegistration;
 
 public interface VaccineRegistrationDao extends JpaRepository<VaccineRegistration, Long> {
 
+	VaccineRegistration findBymobileno(long mobileno);
 
 }

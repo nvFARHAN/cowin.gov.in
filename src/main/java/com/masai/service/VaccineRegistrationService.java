@@ -11,13 +11,13 @@ public interface VaccineRegistrationService {
 	
 	public VaccineRegistration getVaccineRegistration(long mobileNo);
 	
-	public List<Member> getAllMember(long mobileNo);
+	public Member getAllMember(long mobileNo);
 	
 	public VaccineRegistration addVaccineRegistration(VaccineRegistration reg);
 
 	public VaccineRegistration updateVaccineRegistration(VaccineRegistration reg);
 
-	public VaccineRegistration deleteVaccineRegistration(VaccineRegistration reg);
+	public boolean deleteVaccineRegistration(VaccineRegistration reg);
 
 	
 

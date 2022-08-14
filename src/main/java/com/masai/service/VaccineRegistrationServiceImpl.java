@@ -2,12 +2,9 @@ package com.masai.service;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.masai.exceptions.VaccineRegistrationException;
-import com.masai.exceptions.VaccineRepositoryException;
 import com.masai.model.Member;
 import com.masai.model.VaccineRegistration;
 import com.masai.repository.MemberDao;
@@ -18,7 +15,7 @@ public class VaccineRegistrationServiceImpl implements VaccineRegistrationServic
 
 	@Autowired
 	private VaccineRegistrationDao vaccineRegistrationDao;
-	
+
 	@Autowired
 	private MemberDao memberDao;
 
@@ -44,39 +41,39 @@ public class VaccineRegistrationServiceImpl implements VaccineRegistrationServic
 	}
 
 	@Override
-	public List<Member> getAllMember(long mobileNo) {
-		List<Member> members=memberDao.findById();
+	public Member getAllMember(long mobileNo) {
+		Member members = memberDao.findById(mobileNo);
+		return members;
 	}
 
 	@Override
 	public VaccineRegistration addVaccineRegistration(VaccineRegistration reg) {
+
+		Optional<VaccineRegistration> vr = vaccineRegistrationDao.findById(reg.getMobileno());
+
+		if (vr.isPresent()) {
+			throw new VaccineRegistrationException("Vaccination registration is present with the same MobileNo");
+		}
 		return vaccineRegistrationDao.save(reg);
 	}
 
 	@Override
 	public VaccineRegistration updateVaccineRegistration(VaccineRegistration reg) {
-		Optional<VaccineRegistration> opt = vaccineRegistrationDao.findById(null);
 
-		if (opt.isPresent()) {
-
-			VaccineRegistration existingVaccine = opt.get();
-
-			return vaccineRegistrationDao.save(reg);
-
-		} else
-			throw new VaccineRepositoryException("Invalid VaccineRegistration Details..");
+		VaccineRegistration vc = vaccineRegistrationDao.findById(reg.getMobileno())
+				.orElseThrow(() -> new VaccineRegistrationException("Registration not found"));
+		vaccineRegistrationDao.save(reg);
+		return reg;
 
 	}
 
 	@Override
-	public VaccineRegistration deleteVaccineRegistration(VaccineRegistration reg) {
-		VaccineRegistration existingVaccineReg = vaccineRegistrationDao.findById(reg)
-				.orElseThrow(() -> new VaccineRegistrationException(
-						"VaccineRegistration does not exist with this vaccineRegistration :" + reg));
+	public boolean deleteVaccineRegistration(VaccineRegistration reg) {
+		VaccineRegistration vr = vaccineRegistrationDao.findById(reg.getMobileno())
+				.orElseThrow(() -> new VaccineRegistrationException("Vaccine Registration Not Found"));
+		vaccineRegistrationDao.delete(vr);
+		return true;
 
-		vaccineRegistrationDao.delete(existingVaccineReg);
-
-		return existingVaccineReg;
 	}
 
 }
