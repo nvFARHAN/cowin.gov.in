@@ -39,7 +39,7 @@ public class IdCardServiceImpl implements IdCardService {
 
 	@Override
 	public IdCard addIdCard(IdCard idCard) {
-		Optional<IdCard> opt = idDao.findById(idCard.getId());
+//		Optional<IdCard> opt = idDao.findById(idCard.getId());
 
 		return idDao.save(idCard);
 	}

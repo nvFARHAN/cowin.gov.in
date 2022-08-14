@@ -10,6 +10,7 @@ import com.masai.exceptions.VaccineRegistrationException;
 import com.masai.exceptions.VaccineRepositoryException;
 import com.masai.model.Member;
 import com.masai.model.VaccineRegistration;
+import com.masai.repository.MemberDao;
 import com.masai.repository.VaccineRegistrationDao;
 
 @Service
@@ -17,6 +18,9 @@ public class VaccineRegistrationServiceImpl implements VaccineRegistrationServic
 
 	@Autowired
 	private VaccineRegistrationDao vaccineRegistrationDao;
+	
+	@Autowired
+	private MemberDao memberDao;
 
 	public VaccineRegistrationServiceImpl(VaccineRegistrationDao vaccineRegistrationDao) {
 		super();
@@ -41,7 +45,7 @@ public class VaccineRegistrationServiceImpl implements VaccineRegistrationServic
 
 	@Override
 	public List<Member> getAllMember(long mobileNo) {
-		List<Member> members
+		List<Member> members=memberDao.findById();
 	}
 
 	@Override
