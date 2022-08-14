@@ -14,6 +14,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.masai.enums.Slot;
 
 import lombok.AllArgsConstructor;
@@ -40,7 +41,7 @@ public class Appointment {
 	@Pattern(regexp = "^[7-9][0-9]{9}$",message="Mobile No is Invalid!")
 	private long mobileNo;
 	
-	@NotEmpty(message="Date of Booking should not be Empty!")
+	@JsonFormat(shape=JsonFormat.Shape.STRING,pattern = "dd-MM-yyyy")
 	private LocalDate dateofbooking;
 	
 	private boolean bookigStatus;

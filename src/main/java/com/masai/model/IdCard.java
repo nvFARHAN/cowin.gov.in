@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,8 +21,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class IdCard {
-	@Id
+
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Id
 	private Integer id;
 
 	private LocalDate dob;
@@ -35,6 +38,7 @@ public class IdCard {
 
 	private String pincode;
 
+	@JsonIgnore
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "idCard")
 	private Member member;
 
