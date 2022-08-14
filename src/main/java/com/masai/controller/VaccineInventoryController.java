@@ -1,7 +1,6 @@
 package com.masai.controller;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.masai.model.Vaccine;
 import com.masai.model.VaccineInventory;
 import com.masai.service.VaccineInventoryService;
 
@@ -31,7 +29,7 @@ public class VaccineInventoryController {
 	public VaccineInventory saveVaccineHandler(@RequestBody VaccineInventory vaccineInv) {
 		
 		return vaccineInvService.saveVaccineInventory(vaccineInv);
-		//return vaccineInv;
+		
 	}
 	
 	
