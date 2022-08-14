@@ -1,5 +1,6 @@
 package com.masai.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,12 +8,15 @@ import org.springframework.stereotype.Service;
 
 import com.masai.exceptions.MemberNotFoundException;
 import com.masai.model.AdharCard;
+import com.masai.model.Appointment;
 import com.masai.model.IdCard;
 import com.masai.model.Member;
 import com.masai.model.PanCard;
 import com.masai.model.VaccineRegistration;
+import com.masai.repository.AppointmentDao;
 import com.masai.repository.IdCardDao;
 import com.masai.repository.MemberDao;
+import com.masai.repository.VaccineDao;
 import com.masai.repository.VaccineRegistrationDao;
 
 @Service
@@ -26,6 +30,12 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Autowired
 	VaccineRegistrationDao vrDao;
+	
+	@Autowired
+	AppointmentDao apDao;
+	
+	@Autowired
+	VaccineDao vDao;
 
 	@Override
 	public Member addMember(Member member) {
@@ -34,12 +44,20 @@ public class MemberServiceImpl implements MemberService {
 			{Optional<IdCard> idcard=idDao.findById(member.getIdCard().getId());
 		member.setIdCard(idcard.get());}
 		}
-		if(member.getVaccineRegistration()!=null)
-		{    VaccineRegistration vi=member.getVaccineRegistration();
-			VaccineRegistration vr=vrDao.findBymobileno(vi.getMobileno());
-			member.setVaccineRegistration(vr);
-		}
-	
+//		if(member.getVaccineRegistration()!=null&&member.getVaccineRegistration().getDateofregistration()==null)
+//		{    VaccineRegistration vi=member.getVaccineRegistration();
+//			VaccineRegistration vr=vrDao.findBymobileno(vi.getMobileno());
+//			member.setVaccineRegistration(vr);
+//		}
+	    if(member.getAppointments()!=null)
+	    	{
+	    	List<Appointment> app=member.getAppointments();
+	    	for(Appointment appointment:app)
+	    	{
+	    		appointment.setMember(member);
+	    	}
+	    	}
+	    ;
 		
 			return dao.save(member);
 		
@@ -49,9 +67,15 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public Member getMemberById(int idcardid) throws MemberNotFoundException {
 		Optional<IdCard> idcard=idDao.findById(idcardid);
-		Member mbyId = dao.findByIdCard(idcard);
+		if(idcard!=null)
+		{Member mbyId = dao.findByIdCard(idcard);
 		if (mbyId!=null)
-			return mbyId;
+		{ List<Appointment> appointment=apDao.findBymember(mbyId);
+			mbyId.setAppointments(appointment);
+			return mbyId;}
+		else
+			throw new MemberNotFoundException("Member not found  with the idcard id:" + idcardid);
+		}
 		else
 			throw new MemberNotFoundException("Member not found  with the idcard id:" + idcardid);
 	}
@@ -104,15 +128,11 @@ public class MemberServiceImpl implements MemberService {
 					  pan.setPanNo(member.getIdCard().getPancard().getPanNo());
 				  }
 					 
-				 		  ;
 				}
+			  	  
 				
-//				if(member.getVaccineRegistration()!=null)
-//				{
-//					VaccineRegistration vreg=exist.getVaccineRegistration();
-//					
-//					vreg.setMobileno(member.getVaccineRegistration().getMobileno());
-//				}
+				
+				
 			return dao.save(exist);}
 		else
 			throw new MemberNotFoundException("Member not found with the member id :" + member.getMemberId());
@@ -125,7 +145,10 @@ public class MemberServiceImpl implements MemberService {
 			Member exist=mId.get();
 //			Optional<IdCard> id=idDao.findById(exist.getIdCard().getId());
 //			IdCard exid=id.get();
+			vrDao.delete(exist.getVaccineRegistration());
 			idDao.delete(exist.getIdCard());
+			apDao.deleteAll(exist.getAppointments());
+			vDao.delete(exist.getVaccine());
 			dao.delete(member);
 			return true;
 		} else
@@ -136,25 +159,32 @@ public class MemberServiceImpl implements MemberService {
 	public Member getMemberByAdharNo(long adharno) throws MemberNotFoundException {
 		IdCard idcard = idDao.findByAdharcard(new AdharCard(adharno));
 		Optional<IdCard> idcard1=idDao.findById(idcard.getId());
-		Member mbyId = dao.findByIdCard(idcard1);
+		if(idcard1!=null)
+		{Member mbyId = dao.findByIdCard(idcard1);
 			if (mbyId!=null)
 				return mbyId;
 			else
-				throw new MemberNotFoundException("Member not found  ");
+				throw new MemberNotFoundException("Member doesnot exist with the adharNo : "+adharno);
+			}
+			else
+				throw new MemberNotFoundException("Member doesnot exist with the adharNo : "+adharno);
 
 	}
 
 	@Override
 	public Member getMemberByPanNo(String panNo) throws MemberNotFoundException {
 		IdCard idcard = idDao.findByPancard(new PanCard(panNo));
-		Optional<IdCard> id=idDao.findById(idcard.getId());
+		if(idcard!=null)
+		{Optional<IdCard> id=idDao.findById(idcard.getId());
 				Member mbyId = dao.findByIdCard(id);
 				if (mbyId!=null)
 					return mbyId;
 				else
-					throw new MemberNotFoundException("Member not found  with ");
+					throw new MemberNotFoundException("Member doesnot exist with the adharNo : "+panNo);
 			}
-
+	else
+		throw new MemberNotFoundException("Member doesnot exist with the adharNo : "+panNo);
 	
 
+}
 }

@@ -34,6 +34,7 @@ public class Vaccine {
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "vaccine")
 	private VaccineCount vaccinecount;
 
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "vaccine")
 	private List<Member> member;
 
