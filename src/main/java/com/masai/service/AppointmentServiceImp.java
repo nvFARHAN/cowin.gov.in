@@ -37,9 +37,11 @@ public class AppointmentServiceImp implements AppointmentService {
 	@Override
 	
 	public Appointment addAppointment(Appointment app) {
+
 		Optional<Appointment> appExit=appointmentDao.findById(app.getBookingID());
 		
 		if(appExit.isPresent()) throw new AppointmentExcepation("Appointment is  already saved!");
+
 		return appointmentDao.save(app);
 		//return app;
 	}

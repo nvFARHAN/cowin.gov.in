@@ -1,10 +1,13 @@
 package com.masai.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -41,8 +44,8 @@ public class Member {
 	@OneToOne(cascade = CascadeType.ALL)
 	private VaccineRegistration vaccineRegistration;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
-	private List<Appointment> appointments;
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "member",fetch = FetchType.EAGER)
+	private List<Appointment> appointments=new ArrayList<Appointment>();
 
 	private boolean dose1Status;
 	private boolean dose2Status;
