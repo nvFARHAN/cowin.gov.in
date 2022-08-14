@@ -21,7 +21,7 @@ public interface VaccineInventoryService {
 	
 	public List<VaccineInventory> getVaccineInventoryByDate(LocalDate date);
 	
-	public List<VaccineInventory> getVaccineInventoryByVaccine(Integer vaccineid);
+	public List<VaccineInventory> getVaccineInventoryByVaccine(String vaccineName);
 	
 	
 
