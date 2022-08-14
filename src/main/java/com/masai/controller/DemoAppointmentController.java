@@ -34,7 +34,7 @@ public class DemoAppointmentController {
 		return appointmentService.addAppointment(app);
 	}
 	
-	@GetMapping("/appointment")
+	@GetMapping("/appointments")
 	public List<Appointment> getVaccineAllAppointment(){
 		return appointmentService.getAllAppointment();
 	}
@@ -44,12 +44,12 @@ public class DemoAppointmentController {
 		return appointmentService.getAppointmentByBookingId(bookingId);
 	}
 	
-	@PostMapping("/appointment/{bookId}")
+	@PostMapping("/appointment/update")
 	public Appointment updateVaccineAppointment(@RequestBody Appointment app) {
 		return appointmentService.updateAppointment(app);
 	}
 	
-	@DeleteMapping("/appointment")
+	@DeleteMapping("/appointment/delete")
 	public boolean deleteVaccineAppointment(@RequestBody Appointment app) {
 		return appointmentService.deleteAppointment(app);
 	}
