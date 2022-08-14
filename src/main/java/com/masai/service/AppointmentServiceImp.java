@@ -1,10 +1,12 @@
 package com.masai.service;
 
 import java.util.List;
-
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.masai.exceptions.AppointmentExcepation;
+import com.masai.exceptions.AppointmentNotFoundExecpation;
 import com.masai.model.Appointment;
 import com.masai.repository.AppointmentDao;
 
@@ -29,11 +31,15 @@ public class AppointmentServiceImp implements AppointmentService {
 	public Appointment getAppointmentByBookingId(long bookingId) {
 
 		return appointmentDao.findById(bookingId)
-                .orElseThrow(()->  new RuntimeException("Appointment not found!") );
+                .orElseThrow(()->  new AppointmentNotFoundExecpation("Appointment not found by same booking id!") );
 	}
 
 	@Override
+	
 	public Appointment addAppointment(Appointment app) {
+		Optional<Appointment> appExit=appointmentDao.findById(app.getBookingID());
+		
+		if(appExit.isPresent()) throw new AppointmentExcepation("Appointment is  already saved!");
 		return appointmentDao.save(app);
 		//return app;
 	}
@@ -41,7 +47,7 @@ public class AppointmentServiceImp implements AppointmentService {
 	@Override
 	public Appointment updateAppointment(Appointment app) {
 		Appointment ExitApp = appointmentDao.findById(app.getBookingID())
-                              .orElseThrow(()->  new RuntimeException("Appointment not found!") );
+                              .orElseThrow(()->  new AppointmentExcepation("Appointment not found!") );
 	
 			appointmentDao.save(app);
 			return app;
@@ -51,7 +57,7 @@ public class AppointmentServiceImp implements AppointmentService {
 	@Override
 	public boolean deleteAppointment(Appointment app) {
 		Appointment ExitApp = appointmentDao.findById(app.getBookingID())
-                .orElseThrow(()->  new RuntimeException("Appointment not found!") );
+                .orElseThrow(()->  new AppointmentExcepation("Appointment not found!") );
 			appointmentDao.delete(ExitApp);
 			return true;
 		
