@@ -44,11 +44,7 @@ public class MemberServiceImpl implements MemberService {
 			{Optional<IdCard> idcard=idDao.findById(member.getIdCard().getId());
 		member.setIdCard(idcard.get());}
 		}
-//		if(member.getVaccineRegistration()!=null&&member.getVaccineRegistration().getDateofregistration()==null)
-//		{    VaccineRegistration vi=member.getVaccineRegistration();
-//			VaccineRegistration vr=vrDao.findBymobileno(vi.getMobileno());
-//			member.setVaccineRegistration(vr);
-//		}
+
 	    if(member.getAppointments()!=null)
 	    	{
 	    	List<Appointment> app=member.getAppointments();

@@ -16,47 +16,47 @@ import com.masai.service.MemberService;
 
 @RestController
 public class MemberController {
-
-	@Autowired
-	private MemberService memberService;
-	
-	@Autowired
-	private IdCardService idservice;
-	
-	
-
-	@PostMapping("/member")
-	public Member saveMember(@RequestBody Member member) {
-		return memberService.addMember(member);
-	}
-	
-	@GetMapping("/member/idcardid/{idcardId}")
-	public Member getMemberById(@PathVariable("idcardId") Integer idcardId) throws MemberNotFoundException
-	{
-		return memberService.getMemberById(idcardId);
-	}
-	
-	@GetMapping("/member/adharno/{adharNo}")
-	public Member getMemberByAdharNo(@PathVariable("adharNo") long adharNo) throws MemberNotFoundException
-	{
-		return memberService.getMemberByAdharNo(adharNo);
-	}
-	
-	@GetMapping("/member/panno/{panNo}")
-	public Member getMemberByPanNo(@PathVariable("panNo") String panNo) throws MemberNotFoundException
-	{
-		return memberService.getMemberByPanNo(panNo);
-	}
-	
-	@PutMapping("/member/updatemember")
-	public Member updateMember(@RequestBody Member member) throws MemberNotFoundException
-	{
-		return memberService.updateMember(member);
-	}
-	
-	@DeleteMapping("/member/delete")
-	public boolean deleteMember(@RequestBody Member member) throws MemberNotFoundException
-	{    
-		return memberService.deleteMember(member);
-	}
+//
+//	@Autowired
+//	private MemberService memberService;
+//	
+//	@Autowired
+//	private IdCardService idservice;
+//	
+//	
+//
+//	@PostMapping("/member")
+//	public Member saveMember(@RequestBody Member member) {
+//		return memberService.addMember(member);
+//	}
+//	
+//	@GetMapping("/member/idcardid/{idcardId}")
+//	public Member getMemberById(@PathVariable("idcardId") Integer idcardId) throws MemberNotFoundException
+//	{
+//		return memberService.getMemberById(idcardId);
+//	}
+//	
+//	@GetMapping("/member/adharno/{adharNo}")
+//	public Member getMemberByAdharNo(@PathVariable("adharNo") long adharNo) throws MemberNotFoundException
+//	{
+//		return memberService.getMemberByAdharNo(adharNo);
+//	}
+//	
+//	@GetMapping("/member/panno/{panNo}")
+//	public Member getMemberByPanNo(@PathVariable("panNo") String panNo) throws MemberNotFoundException
+//	{
+//		return memberService.getMemberByPanNo(panNo);
+//	}
+//	
+//	@PutMapping("/member/updatemember")
+//	public Member updateMember(@RequestBody Member member) throws MemberNotFoundException
+//	{
+//		return memberService.updateMember(member);
+//	}
+//	
+//	@DeleteMapping("/member/delete")
+//	public boolean deleteMember(@RequestBody Member member) throws MemberNotFoundException
+//	{    
+//		return memberService.deleteMember(member);
+//	}
 }
