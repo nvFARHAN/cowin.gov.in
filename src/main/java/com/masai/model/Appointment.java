@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -39,9 +40,14 @@ public class Appointment {
 	private long bookingID;
 	
 	
+<<<<<<< HEAD
 //	@NotBlank(message = "Mobile Number is Mandatory")
 //	@Size(max=10,message="Moblie Number length should be 10!")
 //	@Pattern(regexp = "^[7-9][0-9]{9}$",message="Mobile No is Invalid!")
+=======
+
+	@Digits(integer=10,fraction =0,message="moblie maximum size 10")
+>>>>>>> 69c1eaa2c5258745a92a442dc5af299f74e5ee6d
 	private long mobileNo;
 	
 	@JsonFormat(shape=JsonFormat.Shape.STRING,pattern = "dd-MM-yyyy")
@@ -49,7 +55,7 @@ public class Appointment {
 	
 	private boolean bookigStatus;
 
-//	Slot slot;
+    Slot slot;
 
 	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.ALL)
