@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import com.masai.model.VaccinationCenter;
 import com.masai.model.VaccineCount;
 import com.masai.model.VaccineInventory;
+import com.masai.repository.VaccinationCenterDao;
+import com.masai.repository.VaccineCountDao;
 import com.masai.repository.VaccineInventoryDao;
 
 @Service
@@ -22,22 +24,39 @@ public class VaccineInventoryServiceImpl implements VaccineInventoryService{
 	@Autowired
 	private VaccinationCenterService vaccineCenterService;
 	
+	@Autowired
+	private VaccineCountDao vaccinecountdao;
 	
+	@Autowired
+	private VaccinationCenterDao vctDao;
 	
 	
 	@Override
 	public VaccineInventory saveVaccineInventory(VaccineInventory vaccineInv) {
-		
-		
-	 return vaccineInvDao.save(vaccineInv);
+//		vaccineInv.setVaccinationCenters();
+//		vaccineInv.setVaccineCounts(null);
+	
+	VaccineInventory vct= vaccineInvDao.save(vaccineInv);
+	 List<VaccinationCenter> vaccineCenterList=vaccineInv.getVaccinationCenters();
+	 for (VaccinationCenter vaccinationCenter : vaccineCenterList) {
+		vctDao.save(vaccinationCenter);
+		vaccinationCenter.setVaccineInventory(vaccineInv);
+	}
+	 
+	 List<VaccineCount> vaccinecountList=vaccineInv.getVaccineCounts();
+	 for (VaccineCount vaccineCount : vaccinecountList) {
+		 vaccinecountdao.save(vaccineCount);
+		 vaccineCount.setVaccineInventory(vaccineInv);
+	}
+	 
+	 return  vaccineInvDao.save(vaccineInv);
 	}
 	
 	
 	@Override
 	public List<VaccineInventory> allVaccineInventory() {
 
-		return vaccineInvDao.findAll();
-		
+		return vaccineInvDao.findAll();		
 	}
 
 	@Override
@@ -68,8 +87,8 @@ public class VaccineInventoryServiceImpl implements VaccineInventoryService{
 		Optional<VaccineInventory> vacInvOpt= vaccineInvDao.findById(inv.getVaccineInventoryId());
 		
 		VaccineInventory vacInv= vacInvOpt.get();
-		
-		return vaccineInvDao.save(vacInv);
+		//need changes
+		return vaccineInvDao.save(inv);
 		
 	}
 
@@ -98,14 +117,23 @@ public class VaccineInventoryServiceImpl implements VaccineInventoryService{
 	@Override
 	public List<VaccineInventory> getVaccineInventoryByVaccine(Integer vaccineid) {
 			
-		
+		System.out.println(vaccineid);
 		 List<VaccineInventory> vaccineInventoryList= vaccineInvDao.findAll();
 		 List<VaccineInventory> foundedvaccineInventoryList =new ArrayList<>();
 		 for (VaccineInventory vaccineInventory : vaccineInventoryList) {
+			// System.out.println("inside vci list");
 			List<VaccineCount> vaccineCountList=vaccineInventory.getVaccineCounts();
 			for (VaccineCount vaccineCount : vaccineCountList) {
-				if(vaccineCount.getVaccine().getVaccineid()==vaccineid) {
-					foundedvaccineInventoryList.add(vaccineInventory);
+				// System.out.println("inside vcount list");
+				//	System.out.println("ID of vaccine: "+vaccineCount.getVaccine().getVaccineid());
+				System.out.println(vaccineCount.getVaccine()==null);
+					if(!(vaccineCount.getVaccine()==null)) {
+			 		// System.out.println("what is null");
+			 		if(vaccineCount.getVaccine().getVaccineid()==vaccineid) {
+			 			foundedvaccineInventoryList.add(vaccineInventory);
+			 		}
+					//System.out.println("ID of vaccine: "+vaccineCount.getVaccine().getVaccineid());
+					//foundedvaccineInventoryList.add(vaccineInventory);
 				}
 			}
 		}

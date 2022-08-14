@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,6 +28,7 @@ public class Vaccine {
 	private String vaccineName;
 	private String description;
 
+	@JsonIgnore
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "vaccine")
 	private VaccineCount vaccinecount;
 

@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,17 +25,32 @@ public class DemoVaccineInventoryController {
 	@Autowired
 	private VaccineInventoryService vaccineInvService;
 	
-	@PostMapping("/vaccine")
+	@PostMapping("/vaccineinv")
 	public VaccineInventory saveVaccineHandler(@RequestBody VaccineInventory vaccineInv) {
+		
 		return vaccineInvService.saveVaccineInventory(vaccineInv);
+		//return vaccineInv;
 	}
 	
 	
 	@GetMapping("/vaccine")
-	public List<VaccineInventory> getAllInventory(){
+	public List<VaccineInventory> getAllInventoryHandler(){
 		return vaccineInvService.allVaccineInventory();
 	}
 	
+	@GetMapping("/getvaccine/{centerid}")
+	public VaccineInventory getVaccineInventoryByCenterHandler(@PathVariable ("centerid") Integer centerid) {
+		
+		return vaccineInvService.getVaccineInventoryByCenter(centerid);
+		
+	}
+	
+	@PutMapping("/vaccineadd/{vaccineId}")
+	public VaccineInventory addVaccineCountHandler(@RequestBody VaccineInventory inv ,@PathVariable
+			("vaccineId") Integer vaccineId) {
+		
+		return vaccineInvService.addVaccineCount(inv, vaccineId);
+	}
 	
 	@PutMapping("/vaccine")
 	public VaccineInventory updateVaccineInventoryHandler(@RequestBody VaccineInventory vaccineInventory) {
@@ -49,10 +65,10 @@ public class DemoVaccineInventoryController {
 	}
 	
 	@GetMapping("/vaccines/{date}")
-	public List<VaccineInventory> getVaccineInventoryByDate(@PathVariable ("date") String date){
-		  DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-		LocalDate parsedDate = LocalDate.parse(date, formatter);
-		return vaccineInvService.getVaccineInventoryByDate(parsedDate);
+	public List<VaccineInventory> getVaccineInventoryByDate(@PathVariable ("date") @DateTimeFormat (pattern = "dd-MM-yyyy") LocalDate date){
+//		  DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+//		LocalDate parsedDate = LocalDate.parse(date, formatter);
+		return vaccineInvService.getVaccineInventoryByDate(date);
 	}
 	
 	@GetMapping("/vaccineinventory/{vaccineid}")
