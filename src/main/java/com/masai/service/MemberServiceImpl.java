@@ -1,5 +1,6 @@
 package com.masai.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,9 +41,21 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public Member addMember(Member member) {
 		if(member.getIdCard()!=null)
-		{if(member.getIdCard().getId()!=null)
-			{Optional<IdCard> idcard=idDao.findById(member.getIdCard().getId());
-		member.setIdCard(idcard.get());}
+		{
+			if(member.getIdCard().getId()!=null)
+			{
+				Optional<IdCard> idcard=idDao.findById(member.getIdCard().getId());
+		    if(idcard.isPresent())
+		    {
+		    	Member mbyId = dao.findByIdCard(idcard);
+		    	if(mbyId==null)
+		    	member.setIdCard(idcard.get());
+		    	else
+		    		throw new MemberNotFoundException("Member already exist with the Idcard id :"+member.getIdCard().getId());
+		    }
+		    else
+	    		throw new MemberNotFoundException("Invalid Idcard id ");
+				}
 		}
 
 	    if(member.getAppointments()!=null)
@@ -53,8 +66,50 @@ public class MemberServiceImpl implements MemberService {
 	    		appointment.setMember(member);
 	    	}
 	    	}
-	    ;
+	  
+	    if(member.getVaccineRegistration()!=null)
+	    {   if(member.getVaccineRegistration().getMobileno()!=0)
+	    	{VaccineRegistration vacc=vrDao.findBymobileno(member.getVaccineRegistration().getMobileno());
+	    	if(vacc!=null)
+	    	{
+	    		
+	    		member.setVaccineRegistration(vacc);
+	    	}
+	    }}
+	    
+	    
+	    
+		 LocalDate present=LocalDate.now();
+		 LocalDate pastDate=present.minusMonths(6);
+		 System.out.println(pastDate);
+		 if(member.getDose1Date()!=null)
+		 {
+			 LocalDate  given1=member.getDose1Date(); 	
+			 if(member.getDose1Date()!=null&&present.isBefore(given1))
+				throw new MemberNotFoundException("Future date is given in DOSE 1 DATE area" ); 
+			 else if(member.getDose1Date()!=null&&pastDate.isAfter(given1))
+					throw new MemberNotFoundException(" date is before 6 months (DOSE 1)" ); 	
+			 else if(member.getDose1Date()!=null&&(given1.isBefore(present)||present.isEqual(given1))&&given1.isAfter(pastDate))
+				 member.setDose1Status(true);
+	
+		 if(member.getDose2Date()!=null)
+		 {
+			 LocalDate  given2=member.getDose2Date();
+			 if(member.getDose2Date()!=null&&present.isBefore(given2))
+					throw new MemberNotFoundException("Future date is given in DOSE 2 DATE area" );	 
+			 else if(member.getDose1Date()!=null&&pastDate.isAfter(given2))
+					throw new MemberNotFoundException(" date is before 6 months (DOSE 1)" ); 
 		
+		 }
+		 }
+		 if(member.getDose1Date()==null&&member.getDose2Date()!=null)
+				throw new MemberNotFoundException(" Dose 1 status is false" ); 
+		
+		 if(member.isDose1Status()==true&&member.getDose1Date()==null)
+			 throw new MemberNotFoundException(" Dose 1 DATE Not Entered" ); 
+		 if(member.isDose2Status()==true&&member.getDose2Date()==null)
+			 throw new MemberNotFoundException(" Dose 2 DATE Not Entered" );
+		 
 			return dao.save(member);
 		
 		
@@ -70,10 +125,10 @@ public class MemberServiceImpl implements MemberService {
 			mbyId.setAppointments(appointment);
 			return mbyId;}
 		else
-			throw new MemberNotFoundException("Member not found  with the idcard id:" + idcardid);
+			throw new MemberNotFoundException("Member not found  with the IDCARD ID:" + idcardid);
 		}
 		else
-			throw new MemberNotFoundException("Member not found  with the idcard id:" + idcardid);
+			throw new MemberNotFoundException("Member not found  with the IDCARD ID:" + idcardid);
 	}
 
 
@@ -85,10 +140,38 @@ public class MemberServiceImpl implements MemberService {
 		{
 			Member exist=mId.get();
 			
-			if(member.getDose1Date()!=null)
-				exist.setDose1Date(member.getDose1Date());
-			if(member.getDose2Date()!=null)
-				exist.setDose2Date(member.getDose2Date());	
+			 LocalDate present=LocalDate.now();
+			 LocalDate pastDate=present.minusMonths(6);
+			 
+			 
+			 if(member.getDose1Date()!=null)
+			 {
+				 LocalDate  given1=member.getDose1Date(); 
+				 if(member.getDose1Date()!=null&&(given1.isBefore(present)||present.isEqual(given1))&&given1.isAfter(pastDate))
+					 exist.setDose1Date(member.getDose1Date());
+					
+				else if(member.getDose1Date()!=null&&present.isBefore(given1))
+					throw new MemberNotFoundException("Future date is given in DOSE 1 DATE area" ); 
+				 
+				else if(member.getDose1Date()!=null&&pastDate.isAfter(given1))
+					throw new MemberNotFoundException(" date is before 6 months (DOSE 1)" ); 
+		
+			 if(member.getDose2Date()!=null)
+			 {
+				 LocalDate  given2=member.getDose2Date();
+				if(member.getDose2Date()!=null&&given2.isBefore(present)||present.isEqual(given2)&&given2.isAfter(pastDate))
+					 exist.setDose2Date(member.getDose2Date());
+						
+				else if(member.getDose2Date()!=null&&present.isBefore(given2))
+						throw new MemberNotFoundException("Future date is given in DOSE 2 DATE area" );	
+				else if(member.getDose1Date()!=null&&pastDate.isAfter(given2))
+					throw new MemberNotFoundException(" date is before 6 months (DOSE 1)" ); 
+				 
+			 }
+			 
+			 }
+			 if(member.getDose1Date()==null&&member.getDose2Date()!=null)
+					throw new MemberNotFoundException(" Dose 1 status is false" );
 			    if(exist.getDose1Date()!=null)
 			    	exist.setDose1Status(true);
 			    if(exist.getDose2Date()!=null)
@@ -131,24 +214,31 @@ public class MemberServiceImpl implements MemberService {
 				
 			return dao.save(exist);}
 		else
-			throw new MemberNotFoundException("Member not found with the member id :" + member.getMemberId());
+			throw new MemberNotFoundException("Member not found with the MEMBER ID :" + member.getMemberId());
 	}
 
 	@Override
-	public boolean deleteMember(Member member) throws MemberNotFoundException {
+	public boolean deleteMemberRecord(Member member) throws MemberNotFoundException {
 		Optional<Member> mId = dao.findById(member.getMemberId());
 		if (mId.isPresent()) {
 			Member exist=mId.get();
-//			Optional<IdCard> id=idDao.findById(exist.getIdCard().getId());
-//			IdCard exid=id.get();
+		
+			if(exist.getVaccineRegistration()!=null)
 			vrDao.delete(exist.getVaccineRegistration());
+		
+			if(exist.getIdCard()!=null)
 			idDao.delete(exist.getIdCard());
+		
+			if(exist.getAppointments()!=null)
 			apDao.deleteAll(exist.getAppointments());
+			
+			if(exist.getVaccine()!=null)
 			vDao.delete(exist.getVaccine());
+			
 			dao.delete(member);
 			return true;
 		} else
-			throw new MemberNotFoundException("Member not found with the member id :" + member.getMemberId());
+			throw new MemberNotFoundException("Member not found with the MEMBER ID :" + member.getMemberId());
 	}
 
 	@Override
@@ -160,10 +250,10 @@ public class MemberServiceImpl implements MemberService {
 			if (mbyId!=null)
 				return mbyId;
 			else
-				throw new MemberNotFoundException("Member doesnot exist with the adharNo : "+adharno);
+				throw new MemberNotFoundException("Member doesnot exist with the ADHAR NUMBER : "+adharno);
 			}
 			else
-				throw new MemberNotFoundException("Member doesnot exist with the adharNo : "+adharno);
+				throw new MemberNotFoundException("Member doesnot exist with the ADHAR NUMBER : "+adharno);
 
 	}
 
@@ -176,11 +266,42 @@ public class MemberServiceImpl implements MemberService {
 				if (mbyId!=null)
 					return mbyId;
 				else
-					throw new MemberNotFoundException("Member doesnot exist with the adharNo : "+panNo);
+					throw new MemberNotFoundException("Member doesnot exist with the PAN NUMBER : "+panNo);
 			}
 	else
-		throw new MemberNotFoundException("Member doesnot exist with the adharNo : "+panNo);
+		throw new MemberNotFoundException("Member doesnot exist with the PAN NUMBER : "+panNo);
 	
 
 }
+
+	@Override
+	public boolean deleteMember(Member member) throws MemberNotFoundException {
+		Optional<Member> mId = dao.findById(member.getMemberId());
+		if (mId.isPresent()) {
+			Member exist=mId.get();
+			dao.delete(member);
+			return true;
+		} else
+			throw new MemberNotFoundException("Member not found with the MEMBER ID :" + member.getMemberId());
+	}
+
+	@Override
+	public Member updatedoseStatus(Member member) throws MemberNotFoundException {
+		Optional<Member> mId = dao.findById(member.getMemberId());
+		if (mId.isPresent())
+		{
+			Member exist=mId.get();
+			if(exist.isDose1Status()==true)
+				{exist.setDose1Status(member.isDose1Status());
+				exist.setDose1Date(null);
+				};
+				
+			return dao.save(exist);
+		}
+		else
+			throw new MemberNotFoundException("Member not found with the MEMBER ID :" + member.getMemberId());
+		
+	
+	}
 }
+

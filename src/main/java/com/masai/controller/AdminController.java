@@ -28,7 +28,7 @@ public class AdminController {
 	
 	
 
-	@PostMapping(value="/member")
+	@PostMapping("/member")
 	public Member saveMember(@RequestBody Member member) {
 		return memberService.addMember(member);
 	}
@@ -57,9 +57,21 @@ public class AdminController {
 		return memberService.updateMember(member);
 	}
 	
+	@DeleteMapping("/member/deletememberrecord")
+	public boolean deleteMemberRecod(@RequestBody Member member) throws MemberNotFoundException
+	{    
+		return memberService.deleteMemberRecord(member);
+	}
+	
 	@DeleteMapping("/member/delete")
 	public boolean deleteMember(@RequestBody Member member) throws MemberNotFoundException
 	{    
 		return memberService.deleteMember(member);
+	}
+	
+	@PutMapping("/member/updatestatus")
+	public Member updatedosestatus(@RequestBody Member member) throws MemberNotFoundException
+	{
+		return memberService.updatedoseStatus(member);
 	}
 }

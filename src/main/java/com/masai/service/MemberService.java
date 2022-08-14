@@ -18,8 +18,10 @@ public interface MemberService {
 	
 	public Member updateMember(Member member) throws MemberNotFoundException;
 	
+	public boolean deleteMemberRecord(Member member) throws MemberNotFoundException;
+	
 	public boolean deleteMember(Member member) throws MemberNotFoundException;
 	
-	
+	public Member updatedoseStatus(Member member) throws MemberNotFoundException; 
 	
 }

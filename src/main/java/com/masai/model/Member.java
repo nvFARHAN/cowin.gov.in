@@ -50,15 +50,13 @@ public class Member {
 	private boolean dose1Status;
 	private boolean dose2Status;
 	
-//	@NotBlank(message = "Date of Registration is Mandatory")
+
     @JsonFormat(pattern = "dd-MM-yyyy")
-//	@NotNull(message = "Date of Registration should not be Null")
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	private LocalDate dose1Date;
     
-//	@NotBlank(message = "Date of Registration is Mandatory")
+
     @JsonFormat(pattern = "dd-MM-yyyy")
-//	@NotNull(message = "Date of Registration should not be Null")
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	private LocalDate dose2Date;
 
