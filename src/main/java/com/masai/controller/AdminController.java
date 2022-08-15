@@ -1,7 +1,7 @@
 package com.masai.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,26 +23,6 @@ public class AdminController {
 	@Autowired
 	private IdCardService idservice;
 
-//	@PostMapping("/member")
-//	public Member saveMember(@RequestBody Member member) {
-//		return memberService.addMember(member);
-//	}
-
-	@GetMapping("/member/idcardid/{idcardId}")
-	public Member getMemberById(@PathVariable("idcardId") Integer idcardId) throws MemberNotFoundException {
-		return memberService.getMemberById(idcardId);
-	}
-
-	@GetMapping("/member/adharno/{adharNo}")
-	public Member getMemberByAdharNo(@PathVariable("adharNo") long adharNo) throws MemberNotFoundException {
-		return memberService.getMemberByAdharNo(adharNo);
-	}
-
-	@GetMapping("/member/panno/{panNo}")
-	public Member getMemberByPanNo(@PathVariable("panNo") String panNo) throws MemberNotFoundException {
-		return memberService.getMemberByPanNo(panNo);
-	}
-
 //	@PutMapping("/member/updatemember")
 //	public Member updateMember(@RequestBody Member member) throws MemberNotFoundException
 //	{
@@ -61,8 +41,15 @@ public class AdminController {
 //		return memberService.deleteMember(member);
 //	}
 
-	@PutMapping("/member/updatestatus")
-	public Member updatedosestatus(@RequestBody Member member) throws MemberNotFoundException {
-		return memberService.updatedoseStatus(member);
+	@DeleteMapping("/member/deletememberrecord")
+	public boolean deleteMemberRecod(@RequestBody Member member) throws MemberNotFoundException {
+		return memberService.deleteMemberRecord(member);
 	}
+
+	@PutMapping("/member/updatestatus/{mid}")
+	public Member updatedosestatus(@RequestBody Member member, @PathVariable("mid") Integer mid)
+			throws MemberNotFoundException {
+		return memberService.updatedoseStatus(member, mid);
+	}
+
 }

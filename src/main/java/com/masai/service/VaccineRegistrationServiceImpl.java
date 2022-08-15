@@ -55,7 +55,15 @@ public class VaccineRegistrationServiceImpl implements VaccineRegistrationServic
 		if (vr.isPresent()) {
 			throw new VaccineRegistrationException("Vaccination registration is present with the same MobileNo");
 		}
+<<<<<<< HEAD
 		return vaccineRegistrationDao.save(new VaccineRegistration(mobNo, LocalDate.now(), null));
+=======
+		   reg.setDateofregistration(LocalDate.now());
+		  
+		  Member member= memberDao.save(new Member());
+		   reg.setMember(member);
+		return vaccineRegistrationDao.save(reg);
+>>>>>>> cb80574f9e835dae56fcdd6177bf177a6f9cae1e
 	}
 
 	@Override

@@ -38,7 +38,12 @@ public class Member {
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Vaccine vaccine;
 
+<<<<<<< HEAD
 	@ManyToOne(cascade = CascadeType.ALL)
+=======
+	
+	@OneToOne(cascade = CascadeType.ALL)
+>>>>>>> cb80574f9e835dae56fcdd6177bf177a6f9cae1e
 	private VaccineRegistration vaccineRegistration;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "member", fetch = FetchType.EAGER)
