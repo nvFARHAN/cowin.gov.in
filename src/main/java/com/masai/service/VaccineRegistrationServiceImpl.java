@@ -18,6 +18,9 @@ public class VaccineRegistrationServiceImpl implements VaccineRegistrationServic
 
 	@Autowired
 	private MemberDao memberDao;
+	
+	@Autowired
+	private VaccineRegistrationDao vrdao;
 
 	public VaccineRegistrationServiceImpl(VaccineRegistrationDao vaccineRegistrationDao) {
 		super();
@@ -42,7 +45,9 @@ public class VaccineRegistrationServiceImpl implements VaccineRegistrationServic
 
 	@Override
 	public Member getAllMember(long mobileNo) {
-		Member members = memberDao.findById(mobileNo);
+		VaccineRegistration vr=vrdao.findBymobileno(mobileNo);
+		
+		Member members = memberDao.findByvaccineRegistration(vr);
 		return members;
 	}
 
