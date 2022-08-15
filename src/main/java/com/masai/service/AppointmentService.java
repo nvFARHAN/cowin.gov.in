@@ -8,7 +8,7 @@ public interface AppointmentService {
 
 	public List<Appointment> getAllAppointment();
 
-	public Appointment getAppointmentByBookingId(long bookingId);
+	public Appointment getAppointmentByBookingId(Long bookingId);
 
 	public Appointment addAppointment(Appointment app, Integer memId);
 

@@ -69,14 +69,14 @@ public class UserController {
 		return new ResponseEntity<Boolean>(vaccineRegistrationService.deleteVaccineRegistration(mobNo), HttpStatus.OK);
 	}
 
-	@GetMapping("/member/{mobNo}")
+	@GetMapping("/members/{mobNo}")
 	public ResponseEntity<List<Member>> getAllMembers(@PathVariable("mobNo") String mobNo) {
 		return new ResponseEntity<List<Member>>(vaccineRegistrationService.getAllMember(mobNo), HttpStatus.FOUND);
 	}
 
-	@PostMapping("/member")
-	public ResponseEntity<Member> saveMember(@RequestBody Member member) {
-		return new ResponseEntity<>(memberService.addMember(member), HttpStatus.CREATED);
+	@PostMapping("/member/{mobNo}")
+	public ResponseEntity<Member> saveMember(@RequestBody Member member, @PathVariable("mobNo") String mobNo) {
+		return new ResponseEntity<>(memberService.addMemberbyMobileNo(member, mobNo), HttpStatus.CREATED);
 	}
 
 	@GetMapping("/member/{id}")
@@ -86,7 +86,7 @@ public class UserController {
 
 	@PutMapping("/member")
 	public ResponseEntity<Member> updateMember(@RequestBody Member member) {
-		return new ResponseEntity<Member>(memberService.updateMember(member), HttpStatus.OK);
+		return new ResponseEntity<Member>(memberService.updateMember(member, member.getMemberId()), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/member")

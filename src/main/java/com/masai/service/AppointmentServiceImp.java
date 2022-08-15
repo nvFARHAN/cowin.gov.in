@@ -1,5 +1,6 @@
 package com.masai.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class AppointmentServiceImp implements AppointmentService {
 	}
 
 	@Override
-	public Appointment getAppointmentByBookingId(long bookingId) {
+	public Appointment getAppointmentByBookingId(Long bookingId) {
 
 		return appointmentDao.findById(bookingId)
 				.orElseThrow(() -> new AppointmentNotFoundExecpation("Appointment not found by same booking id!"));
@@ -53,9 +54,11 @@ public class AppointmentServiceImp implements AppointmentService {
 			for (Member m : list) {
 				if (m.getMemberId() == memId) {
 					app.setMember(m);
+					app.setDateofbooking(LocalDate.now());
+					app.setBookigStatus(true);
 					Appointment a = appointmentDao.save(app);
 					m.getAppointments().add(a);
-					memberService.updateMember(m);
+					memberService.updateMember(m, m.getMemberId());
 					return a;
 				}
 			}
