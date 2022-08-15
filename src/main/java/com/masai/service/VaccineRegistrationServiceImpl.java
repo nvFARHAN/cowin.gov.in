@@ -1,13 +1,15 @@
 package com.masai.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.masai.exceptions.VaccineRegistrationException;
 import com.masai.model.Member;
 import com.masai.model.VaccineRegistration;
-import com.masai.repository.MemberDao;
 import com.masai.repository.VaccineRegistrationDao;
 
 @Service
@@ -17,12 +19,7 @@ public class VaccineRegistrationServiceImpl implements VaccineRegistrationServic
 	private VaccineRegistrationDao vaccineRegistrationDao;
 
 	@Autowired
-	private MemberDao memberDao;
-
-	public VaccineRegistrationServiceImpl(VaccineRegistrationDao vaccineRegistrationDao) {
-		super();
-		this.vaccineRegistrationDao = vaccineRegistrationDao;
-	}
+	private VaccineRegistrationDao vrdao;
 
 	@Override
 	public List<VaccineRegistration> allVaccineRegistration() {
@@ -35,41 +32,45 @@ public class VaccineRegistrationServiceImpl implements VaccineRegistrationServic
 	}
 
 	@Override
-	public VaccineRegistration getVaccineRegistration(long mobileNo) {
+	public VaccineRegistration getVaccineRegistration(String mobileNo) {
 		return vaccineRegistrationDao.findById(mobileNo).orElseThrow(() -> new VaccineRegistrationException(
 				"VaccineRegistraion does not exist with this mobileNo :" + mobileNo));
 	}
 
 	@Override
-	public Member getAllMember(long mobileNo) {
-		Member members = memberDao.findById(mobileNo);
-		return members;
+	public List<Member> getAllMember(String mobileNo) {
+		Optional<VaccineRegistration> vr = vrdao.findById(mobileNo);
+		if (vr.isPresent()) {
+			VaccineRegistration reg = vr.get();
+			return reg.getMembers();
+		} else
+			throw new VaccineRegistrationException("Registration Not Found....");
 	}
 
 	@Override
-	public VaccineRegistration addVaccineRegistration(VaccineRegistration reg) {
+	public VaccineRegistration addVaccineRegistration(String mobNo) {
 
-		Optional<VaccineRegistration> vr = vaccineRegistrationDao.findById(reg.getMobileno());
+		Optional<VaccineRegistration> vr = vaccineRegistrationDao.findById(mobNo);
 
 		if (vr.isPresent()) {
 			throw new VaccineRegistrationException("Vaccination registration is present with the same MobileNo");
 		}
-		return vaccineRegistrationDao.save(reg);
+		return vaccineRegistrationDao.save(new VaccineRegistration(mobNo, LocalDate.now(), null));
 	}
 
 	@Override
-	public VaccineRegistration updateVaccineRegistration(VaccineRegistration reg) {
+	public VaccineRegistration updateVaccineRegistration(String mobNo, String newMobNo) {
 
-		VaccineRegistration vc = vaccineRegistrationDao.findById(reg.getMobileno())
+		VaccineRegistration vc = vaccineRegistrationDao.findById(mobNo)
 				.orElseThrow(() -> new VaccineRegistrationException("Registration not found"));
-		vaccineRegistrationDao.save(reg);
-		return reg;
+		vc.setMobileno(newMobNo);
+		return vaccineRegistrationDao.save(vc);
 
 	}
 
 	@Override
-	public boolean deleteVaccineRegistration(VaccineRegistration reg) {
-		VaccineRegistration vr = vaccineRegistrationDao.findById(reg.getMobileno())
+	public boolean deleteVaccineRegistration(String mobNo) {
+		VaccineRegistration vr = vaccineRegistrationDao.findById(mobNo)
 				.orElseThrow(() -> new VaccineRegistrationException("Vaccine Registration Not Found"));
 		vaccineRegistrationDao.delete(vr);
 		return true;

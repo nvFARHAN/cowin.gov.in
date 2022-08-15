@@ -1,7 +1,5 @@
 package com.masai.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,17 +21,12 @@ public class DemoController {
 
 	@Autowired
 	private VaccinationCenterService vaccinationCenterService;
-	
+
 	@Autowired
 	private VaccineService vaccineserv;
 
 	@Autowired
 	private IdCardService cardService;
-
-	@GetMapping("/vaccination_centers")
-	public ResponseEntity<List<VaccinationCenter>> getVaccineCenters() {
-		return new ResponseEntity<List<VaccinationCenter>>(vaccinationCenterService.allVaccineCenters(), HttpStatus.OK);
-	}
 
 	@PostMapping("/center")
 	public ResponseEntity<VaccinationCenter> addVaccineCenter(@RequestBody VaccinationCenter center) {
@@ -52,7 +45,7 @@ public class DemoController {
 	}
 
 	@PostMapping("/vaccine/add")
-	public ResponseEntity<Vaccine> addVaccine(@RequestBody Vaccine vaccine){
-		return new ResponseEntity<Vaccine>(vaccineserv.addVaccine(vaccine), HttpStatus.ACCEPTED);		
+	public ResponseEntity<Vaccine> addVaccine(@RequestBody Vaccine vaccine) {
+		return new ResponseEntity<Vaccine>(vaccineserv.addVaccine(vaccine), HttpStatus.ACCEPTED);
 	}
 }

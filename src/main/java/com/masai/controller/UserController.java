@@ -1,51 +1,130 @@
 package com.masai.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.masai.exceptions.MemberNotFoundException;
+import com.masai.model.Appointment;
 import com.masai.model.Member;
-import com.masai.service.IdCardService;
+import com.masai.model.VaccinationCenter;
+import com.masai.model.Vaccine;
+import com.masai.model.VaccineRegistration;
+import com.masai.service.AppointmentService;
 import com.masai.service.MemberService;
+import com.masai.service.VaccinationCenterService;
+import com.masai.service.VaccineRegistrationService;
+import com.masai.service.VaccineService;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
 	@Autowired
 	private MemberService memberService;
-	
-	@Autowired
-	private IdCardService idservice;
-	
-	
 
-	@PostMapping("/adddetails")
-	public Member saveMember(@RequestBody Member member) {
-		return memberService.addMember(member);
+	@Autowired
+	private VaccineRegistrationService vaccineRegistrationService;
+
+	@Autowired
+	private VaccinationCenterService vaccinationCenterService;
+
+	@Autowired
+	private AppointmentService appointmentService;
+
+	@Autowired
+	private VaccineService vaccineService;
+
+	@PostMapping("/vaccine_registration/{mobNo}")
+	public ResponseEntity<VaccineRegistration> saveVaccineRegistrationHandler(@PathVariable("mobNo") String mobNo) {
+
+		return new ResponseEntity<VaccineRegistration>(vaccineRegistrationService.addVaccineRegistration(mobNo),
+				HttpStatus.CREATED);
+
 	}
-	
-	@GetMapping("/getdetails/idcardid/{idcardId}")
-	public Member getMemberById(@PathVariable("idcardId") Integer idcardId) throws MemberNotFoundException
-	{
-		return memberService.getMemberById(idcardId);
+
+	@GetMapping("/vaccine_registration/{mobNo}")
+	public ResponseEntity<VaccineRegistration> getVaccineRegistration(@PathVariable("mobNo") String mobNo) {
+		return new ResponseEntity<VaccineRegistration>(vaccineRegistrationService.getVaccineRegistration(mobNo),
+				HttpStatus.FOUND);
 	}
-	
-	@GetMapping("/getdetails/adharno/{adharNo}")
-	public Member getMemberByAdharNo(@PathVariable("adharNo") long adharNo) throws MemberNotFoundException
-	{
-		return memberService.getMemberByAdharNo(adharNo);
+
+	@PutMapping("/vaccine_registration/{mobNo}")
+	public ResponseEntity<VaccineRegistration> updateVaccineRegistration(@PathVariable("mobNo") String mobNo,
+			@RequestBody VaccineRegistration reg) {
+		return new ResponseEntity<VaccineRegistration>(
+				vaccineRegistrationService.updateVaccineRegistration(mobNo, reg.getMobileno()), HttpStatus.OK);
 	}
-	
-	@GetMapping("/getdetails/panno/{panNo}")
-	public Member getMemberByPanNo(@PathVariable("panNo") String panNo) throws MemberNotFoundException
-	{
-		return memberService.getMemberByPanNo(panNo);
+
+	@DeleteMapping("/vaccine_registration/{mobNo}")
+	public ResponseEntity<Boolean> deleteVaccineRegistration(@PathVariable("mobNo") String mobNo) {
+		return new ResponseEntity<Boolean>(vaccineRegistrationService.deleteVaccineRegistration(mobNo), HttpStatus.OK);
 	}
-	
+
+	@GetMapping("/member/{mobNo}")
+	public ResponseEntity<List<Member>> getAllMembers(@PathVariable("mobNo") String mobNo) {
+		return new ResponseEntity<List<Member>>(vaccineRegistrationService.getAllMember(mobNo), HttpStatus.FOUND);
+	}
+
+	@PostMapping("/member")
+	public ResponseEntity<Member> saveMember(@RequestBody Member member) {
+		return new ResponseEntity<>(memberService.addMember(member), HttpStatus.CREATED);
+	}
+
+	@GetMapping("/member/{id}")
+	public ResponseEntity<Member> getMember(@PathVariable("id") Integer idCardId) {
+		return new ResponseEntity<Member>(memberService.getMemberById(idCardId), HttpStatus.FOUND);
+	}
+
+	@PutMapping("/member")
+	public ResponseEntity<Member> updateMember(@RequestBody Member member) {
+		return new ResponseEntity<Member>(memberService.updateMember(member), HttpStatus.OK);
+	}
+
+	@DeleteMapping("/member")
+	public ResponseEntity<Boolean> deleteMember(@RequestBody Member member) {
+		return new ResponseEntity<Boolean>(memberService.deleteMember(member), HttpStatus.OK);
+	}
+
+	@GetMapping("/vaccine")
+	public ResponseEntity<List<Vaccine>> getAllVaccines() {
+		return new ResponseEntity<List<Vaccine>>(vaccineService.allVaccine(), HttpStatus.FOUND);
+	}
+
+	@GetMapping("/vaccination_centers")
+	public ResponseEntity<List<VaccinationCenter>> getVaccineCenters() {
+		return new ResponseEntity<List<VaccinationCenter>>(vaccinationCenterService.allVaccineCenters(), HttpStatus.OK);
+	}
+
+	@PostMapping("/appointment/{memId}")
+	public ResponseEntity<Appointment> bookAppointment(@PathVariable("memId") Integer memId,
+			@RequestBody Appointment appointment) {
+		Appointment a = appointmentService.addAppointment(appointment, memId);
+		return new ResponseEntity<Appointment>(a, HttpStatus.CREATED);
+	}
+
+	@GetMapping("/appointment/{id}")
+	public ResponseEntity<Appointment> getAppointment(@PathVariable("id") Long bookingId) {
+		return new ResponseEntity<Appointment>(appointmentService.getAppointmentByBookingId(bookingId),
+				HttpStatus.FOUND);
+	}
+
+	@PutMapping("/appointment")
+	public ResponseEntity<Appointment> updateVaccineAppointment(@RequestBody Appointment app) {
+		return new ResponseEntity<Appointment>(appointmentService.updateAppointment(app), HttpStatus.OK);
+	}
+
+	@DeleteMapping("/appointment/{id}")
+	public ResponseEntity<Boolean> deleteVaccineAppointment(@PathVariable("id") Long bookingId) {
+		return new ResponseEntity<Boolean>(appointmentService.deleteAppointment(bookingId), HttpStatus.OK);
+	}
 
 }
