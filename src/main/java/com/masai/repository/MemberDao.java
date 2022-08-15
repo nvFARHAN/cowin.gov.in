@@ -18,6 +18,7 @@ public interface MemberDao extends JpaRepository<Member, Integer> {
 
 	
 
+
 	public Member findByvaccineRegistration(VaccineRegistration vr);
 
 }
