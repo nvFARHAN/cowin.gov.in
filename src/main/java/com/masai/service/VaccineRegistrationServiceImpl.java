@@ -1,5 +1,6 @@
 package com.masai.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,10 @@ public class VaccineRegistrationServiceImpl implements VaccineRegistrationServic
 		if (vr.isPresent()) {
 			throw new VaccineRegistrationException("Vaccination registration is present with the same MobileNo");
 		}
+		   reg.setDateofregistration(LocalDate.now());
+		  
+		  Member member= memberDao.save(new Member());
+		   reg.setMember(member);
 		return vaccineRegistrationDao.save(reg);
 	}
 

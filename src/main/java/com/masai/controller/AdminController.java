@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.masai.exceptions.MemberNotFoundException;
 import com.masai.model.Member;
+import com.masai.model.VaccineRegistration;
 import com.masai.service.IdCardService;
 import com.masai.service.MemberService;
+import com.masai.service.VaccineRegistrationService;
 
 @RestController
 @RequestMapping("/admin")
@@ -26,13 +28,11 @@ public class AdminController {
 	@Autowired
 	private IdCardService idservice;
 	
+	@Autowired
+	VaccineRegistrationService vaccineRegistrationService;
+	
 	
 
-	@PostMapping("/member")
-	public Member saveMember(@RequestBody Member member) {
-		return memberService.addMember(member);
-	}
-	
 	@GetMapping("/member/idcardid/{idcardId}")
 	public Member getMemberById(@PathVariable("idcardId") Integer idcardId) throws MemberNotFoundException
 	{
@@ -51,11 +51,7 @@ public class AdminController {
 		return memberService.getMemberByPanNo(panNo);
 	}
 	
-	@PutMapping("/member/updatemember")
-	public Member updateMember(@RequestBody Member member) throws MemberNotFoundException
-	{
-		return memberService.updateMember(member);
-	}
+
 	
 	@DeleteMapping("/member/deletememberrecord")
 	public boolean deleteMemberRecod(@RequestBody Member member) throws MemberNotFoundException
@@ -63,15 +59,13 @@ public class AdminController {
 		return memberService.deleteMemberRecord(member);
 	}
 	
-	@DeleteMapping("/member/delete")
-	public boolean deleteMember(@RequestBody Member member) throws MemberNotFoundException
-	{    
-		return memberService.deleteMember(member);
+
+	
+	@PutMapping("/member/updatestatus/{mid}")
+	public Member updatedosestatus(@RequestBody Member member,@PathVariable("mid") Integer mid) throws MemberNotFoundException
+	{
+		return memberService.updatedoseStatus(member,mid);
 	}
 	
-	@PutMapping("/member/updatestatus")
-	public Member updatedosestatus(@RequestBody Member member) throws MemberNotFoundException
-	{
-		return memberService.updatedoseStatus(member);
-	}
+	
 }

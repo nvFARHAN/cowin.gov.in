@@ -36,12 +36,12 @@ public class VaccineRegistrationController {
 		return vaccineRegistrationService.getAllMember(mobileNo);
 	}
 
-	@PostMapping("/add")
-	public VaccineRegistration saveVaccineRegistrationHandler(@RequestBody VaccineRegistration vaccineReg) {
-
-		return vaccineRegistrationService.addVaccineRegistration(vaccineReg);
-
-	}
+//	@PostMapping("/add")
+//	public VaccineRegistration saveVaccineRegistrationHandler(@RequestBody VaccineRegistration vaccineReg) {
+//
+//		return vaccineRegistrationService.addVaccineRegistration(vaccineReg);
+//
+//	}
 
 	@PostMapping("/update")
 	public VaccineRegistration updateVaccineRegistrationHandler(@RequestBody VaccineRegistration vaccineReg) {

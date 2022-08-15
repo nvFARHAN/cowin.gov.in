@@ -41,6 +41,7 @@ public class Member {
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Vaccine vaccine;
 
+	
 	@OneToOne(cascade = CascadeType.ALL)
 	private VaccineRegistration vaccineRegistration;
 
