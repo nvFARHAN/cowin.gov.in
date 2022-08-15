@@ -7,6 +7,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -25,8 +27,8 @@ public class VaccineRegistration {
 
 	@Id
 //	@NotBlank(message = "Mobile Number is Mandatory")
-//	@Size(max=10,message="Moblie Number length should be 10!")
-//	@Pattern(regexp = "^[7-9][0-9]{9}$",message="Mobile No is Invalid!")
+	@Size(max=10,message="Moblie Number length should be 10!")
+	@Pattern(regexp = "^[6-9][0-9]{9}$",message="Mobile No is Invalid!")
 	private String mobileno;
 
 //	@NotBlank(message = "Date of Registration is Mandatory")
