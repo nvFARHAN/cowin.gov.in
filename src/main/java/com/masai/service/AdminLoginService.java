@@ -1,6 +1,6 @@
-package com.masai.service.login;
+package com.masai.service;
 
-import com.masai.login.module.AdminDTO;
+import com.masai.model.AdminDTO;
 
 public interface AdminLoginService {
 

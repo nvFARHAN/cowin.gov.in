@@ -1,8 +1,6 @@
-package com.masai.service.login;
+package com.masai.service;
 
-import java.io.FileNotFoundException;
-
-import com.masai.login.module.UserDTO;
+import com.masai.model.UserDTO;
 
 public interface UserLoginService {
 

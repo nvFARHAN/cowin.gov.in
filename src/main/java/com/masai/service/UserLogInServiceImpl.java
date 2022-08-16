@@ -1,19 +1,17 @@
-package com.masai.service.login;
+package com.masai.service;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.masai.login.module.CurrentUserSession;
-import com.masai.login.module.User;
-import com.masai.login.module.UserDTO;
-import com.masai.repository.login.UserDao;
-import com.masai.repository.login.UserSessionDAO;
+import com.masai.model.CurrentUserSession;
+import com.masai.model.User;
+import com.masai.model.UserDTO;
+import com.masai.repository.UserDao;
+import com.masai.repository.UserSessionDAO;
 
 import net.bytebuddy.utility.RandomString;
 

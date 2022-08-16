@@ -1,14 +1,14 @@
-package com.masai.service.login;
+package com.masai.service;
 
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.masai.login.module.CurrentUserSession;
-import com.masai.login.module.User;
-import com.masai.repository.login.UserDao;
-import com.masai.repository.login.UserSessionDAO;
+import com.masai.model.CurrentUserSession;
+import com.masai.model.User;
+import com.masai.repository.UserDao;
+import com.masai.repository.UserSessionDAO;
 
 @Service
 public class UserServiceImpl implements UserService{

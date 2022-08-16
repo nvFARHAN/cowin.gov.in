@@ -1,4 +1,4 @@
-package com.masai.login.module;
+package com.masai.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

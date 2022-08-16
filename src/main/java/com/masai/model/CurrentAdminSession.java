@@ -1,4 +1,4 @@
-package com.masai.login.module;
+package com.masai.model;
 
 import java.time.LocalDateTime;
 
@@ -13,33 +13,30 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class CurrentUserSession {
+
+public class CurrentAdminSession {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	
 	@Column(unique =true)
-	private Integer userId;
+	private Integer adminId;
 	
 	private String uuid;
 	
 	private LocalDateTime localDateTime;
 
 	
-	public CurrentUserSession(Integer userId, String uuid, LocalDateTime localDateTime) {
+	public CurrentAdminSession(Integer adminId, String uuid, LocalDateTime localDateTime) {
 		super();
-		this.userId = userId;
+		this.adminId = adminId;
 		this.uuid = uuid;
 		this.localDateTime = localDateTime;
 	}
-	
-	
-	
 }
