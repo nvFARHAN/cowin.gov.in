@@ -10,5 +10,9 @@ public interface VaccineCountDao extends JpaRepository<VaccineCount, Integer>{
 
 	VaccineCount findByvaccine(Vaccine vaccine);
 
+	VaccineCount findByvaccineId(Integer vaccineid);
+
+	
+
 	
 }

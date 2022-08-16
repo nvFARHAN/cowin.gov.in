@@ -8,6 +8,6 @@ import com.masai.model.Vaccine;
 @Repository
 public interface VaccineDao extends JpaRepository<Vaccine, Integer> {
 	
-	public Vaccine findByVaccineName(String vaccineName);
+	public Vaccine findByvaccineName(String vaccineName);
 
 }

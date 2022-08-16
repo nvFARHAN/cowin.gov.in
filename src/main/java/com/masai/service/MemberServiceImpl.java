@@ -48,13 +48,20 @@ public class MemberServiceImpl implements MemberService {
 	public Member addMemberbyMobileNo(Member member, String mobileNo) throws MemberNotFoundException {
 		Optional<VaccineRegistration> vacc = vrDao.findById(mobileNo);
 		if (vacc.isPresent()) {
-			member.setVaccineRegistration(vacc.get());
+			IdCard idcard = idDao.findByAdharcard(member.getIdCard().getAdharcard());
+			if (idcard == null) 
+			
+			{member.setVaccineRegistration(vacc.get());
 			member.setDose1Date(null);
 			member.setDose2Date(null);
 			member.setDose1Status(false);
 			member.setDose2Status(false);
 			return dao.save(member);
-		} else
+			}
+				else
+					throw new MemberNotFoundException("Member is already present");	
+				}
+		 else
 			throw new MemberNotFoundException("This MOBILE NUMBER is NOT REGISTERED:" + mobileNo);
 	}
 
@@ -109,8 +116,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public boolean deleteMember(Member member) throws MemberNotFoundException {
-		Optional<Member> mId = dao.findById(member.getMemberId());
+	public boolean deleteMember(Integer mid) throws MemberNotFoundException {
+		Optional<Member> mId = dao.findById(mid);
 		if (mId.isPresent()) {
 			Member exist = mId.get();
 			if (exist.getVaccineRegistration() != null)
@@ -119,10 +126,10 @@ public class MemberServiceImpl implements MemberService {
 				idDao.delete(exist.getIdCard());
 			if (exist.getAppointments() != null)
 				apDao.deleteAll(exist.getAppointments());
-			dao.delete(member);
+			dao.delete(exist);
 			return true;
 		} else
-			throw new MemberNotFoundException("Member not found with the MEMBER ID :" + member.getMemberId());
+			throw new MemberNotFoundException("Member not found with the MEMBER ID :" + mid);
 	}
 
 	@Override
@@ -188,9 +195,9 @@ public class MemberServiceImpl implements MemberService {
 					exist.setDose1Date(member.getDose1Date());
 					if (exist.getDose1Date() != null) {
 						exist.setDose1Status(true);
-						Vaccine vaccine = vDao.findByVaccineName(member.getVaccine().getVaccineName());
+						Vaccine vaccine = vDao.findByvaccineName(member.getVaccine().getVaccineName());
 						exist.setVaccine(vaccine);
-						VaccineCount vc = countDao.findByvaccine(vaccine);
+						VaccineCount vc = countDao.findByvaccineId(vaccine.getVaccineid());
 						vc.setQuantity(vc.getQuantity() - 1);
 					}
 				}
@@ -200,13 +207,25 @@ public class MemberServiceImpl implements MemberService {
 
 				else if (member.getDose1Date() != null && pastDate.isAfter(given1))
 					throw new MemberNotFoundException(" date is 3 days before the present date(DOSE 1)");
+			}
+			if (exist.getDose1Date() == null && member.getDose2Date() != null)
+				throw new MemberNotFoundException(" Dose 1 not taken");
 
-				if (member.getDose2Date() != null) {
+			if (member.getDose2Date() != null) {
 					LocalDate given2 = member.getDose2Date();
-					if (member.getDose2Date() != null && given2.isBefore(present)
-							|| present.isEqual(given2) && given2.isAfter(pastDate))
+					if ( given2.isBefore(present)
+							|| present.isEqual(given2) && given2.isAfter(pastDate)&&exist.getDose1Date() != null)
+						{System.out.println("call");
 						exist.setDose2Date(member.getDose2Date());
-
+						if (exist.getDose2Date() != null) {
+							exist.setDose2Status(true);
+							Vaccine vaccine = exist.getVaccine();
+							VaccineCount vc = countDao.findByvaccine(vaccine);
+							vc.setQuantity(vc.getQuantity() - 1);
+						}
+						
+						}
+                          
 					else if (member.getDose2Date() != null && present.isBefore(given2))
 						throw new MemberNotFoundException("Future date is given in DOSE 2 DATE area");
 					else if (member.getDose1Date() != null && pastDate.isAfter(given2))
@@ -214,10 +233,8 @@ public class MemberServiceImpl implements MemberService {
 
 				}
 
-			}
-			if (member.getDose1Date() == null && member.getDose2Date() != null)
-				throw new MemberNotFoundException(" Dose 1 not taken");
-
+			
+			
 			if (exist.getDose2Date() != null)
 				exist.setDose2Status(true);
 			return dao.save(exist);

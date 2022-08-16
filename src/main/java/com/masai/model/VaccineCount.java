@@ -23,6 +23,7 @@ public class VaccineCount {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer vaccineCountId;
+	private Integer vaccineId;
 	private Integer quantity;
 	private Double price;
 

@@ -89,9 +89,9 @@ public class UserController {
 		return new ResponseEntity<Member>(memberService.updateMember(member, member.getMemberId()), HttpStatus.OK);
 	}
 
-	@DeleteMapping("/member")
-	public ResponseEntity<Boolean> deleteMember(@RequestBody Member member) {
-		return new ResponseEntity<Boolean>(memberService.deleteMember(member), HttpStatus.OK);
+	@DeleteMapping("/delete/{mid}")
+	public ResponseEntity<Boolean> deleteMember(@PathVariable("mid") Integer mid) {
+		return new ResponseEntity<Boolean>(memberService.deleteMember(mid), HttpStatus.OK);
 	}
 
 	@GetMapping("/vaccine")
