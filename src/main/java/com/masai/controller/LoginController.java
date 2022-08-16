@@ -14,6 +14,7 @@ import com.masai.service.AdminLogInServiceImpl;
 import com.masai.service.UserLogInServiceImpl;
 
 @RestController
+
 @RequestMapping("/login")
 public class LoginController {
 
