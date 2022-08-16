@@ -20,7 +20,7 @@ public interface MemberService {
 
 	public boolean deleteMemberRecord(Member member) throws MemberNotFoundException;
 
-	public boolean deleteMember(Member member) throws MemberNotFoundException;
+	public boolean deleteMember(Integer mid) throws MemberNotFoundException;
 
 	public Member updatedoseStatus(Member member, Integer mid) throws MemberNotFoundException;
 

@@ -238,5 +238,10 @@ public class AdminController {
 	public ResponseEntity<IdCard> getIdcardByAddhar(@PathVariable("id") String id) {
 		return new ResponseEntity<IdCard>(idCardService.getIdcardByPanNo(id), HttpStatus.FOUND);
 	}
+	
+	@PutMapping("/member/updatestatus/{id}")
+	public ResponseEntity<Member> updateMember(@RequestBody Member member,@PathVariable("id") Integer mId) {
+		return new ResponseEntity<Member>(memberService.updateMember(member, mId), HttpStatus.FOUND);
+	}
 
 }

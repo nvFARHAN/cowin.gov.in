@@ -11,7 +11,9 @@ import com.masai.model.Vaccine;
 import com.masai.repository.VaccineDao;
 
 @Service
+
 public class VaccineServiceImpl implements VaccineService {
+
 
 	@Autowired
 	private VaccineDao dao;
@@ -30,12 +32,12 @@ public class VaccineServiceImpl implements VaccineService {
 	@Override
 	public Vaccine getVaccineByName(String VaccineName) {
 
-		Vaccine vaccine = dao.findByVaccineName(VaccineName);
+		
+		Vaccine vaccine = dao.findByvaccineName(VaccineName);
+		
+		if(vaccine != null) return vaccine;
+		else throw new VaccineNotFoundException("Vaccine with name " + VaccineName + " in not available");
 
-		if (vaccine != null)
-			return vaccine;
-		else
-			throw new VaccineNotFoundException("Vaccine with name " + VaccineName + " in not available");
 	}
 
 	@Override
@@ -52,9 +54,12 @@ public class VaccineServiceImpl implements VaccineService {
 
 	@Override
 	public Vaccine addVaccine(Vaccine vaccine) {
-		Vaccine vacc = dao.findByVaccineName(vaccine.getVaccineName());
 
-		if (vacc == null) {
+		Vaccine vacc = dao.findByvaccineName(vaccine.getVaccineName());
+		
+		if(vacc == null) {
+
+
 			return dao.save(vaccine);
 		}
 		throw new RuntimeException("Vaccine already exists!");
