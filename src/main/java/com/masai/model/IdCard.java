@@ -9,7 +9,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -25,17 +30,32 @@ public class IdCard {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Id
 	private Integer id;
+	
+	@NotNull(message = "Member name may not be null")
+	@NotBlank(message = "Member name is Mandatory")
+	@Pattern(regexp = "^[A-Z][a-z]*")
+	private String name;
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	private LocalDate dob;
 
+	@NotNull(message = "Gender may not be null")
+	@Pattern(regexp = "^[A-Z][a-z]*")
 	private String gender;
-
+	
+	@NotNull(message = "Address may not be null")
 	private String address;
-
+	
+	@NotNull(message = "City may not be null")
+	@Pattern(regexp = "^[A-Z][a-z]*")
 	private String city;
-
+	
+	@NotNull(message = "State may not be null")
+	@Pattern(regexp = "^[A-Z][a-z]*")
 	private String state;
-
+	
+	@NotNull(message = "Pincode may not be null")
+	@Size(min = 6, max = 8)
 	private String pincode;
 
 	@JsonIgnore

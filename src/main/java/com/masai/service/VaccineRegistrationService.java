@@ -8,17 +8,15 @@ import com.masai.model.VaccineRegistration;
 public interface VaccineRegistrationService {
 
 	public List<VaccineRegistration> allVaccineRegistration();
-	
-	public VaccineRegistration getVaccineRegistration(long mobileNo);
-	
-	public Member getAllMember(long mobileNo);
-	
-	public VaccineRegistration addVaccineRegistration(VaccineRegistration reg);
 
-	public VaccineRegistration updateVaccineRegistration(VaccineRegistration reg);
+	public VaccineRegistration getVaccineRegistration(String mobileNo);
 
-	public boolean deleteVaccineRegistration(VaccineRegistration reg);
+	public List<Member> getAllMember(String mobileNo);
 
-	
+	public VaccineRegistration addVaccineRegistration(String mobNo);
+
+	public VaccineRegistration updateVaccineRegistration(String mobNo, String newMobNo);
+
+	public boolean deleteVaccineRegistration(String mobNo);
 
 }
