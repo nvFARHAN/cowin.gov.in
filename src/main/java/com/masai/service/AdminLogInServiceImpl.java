@@ -1,4 +1,4 @@
-package com.masai.service.login;
+package com.masai.service;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -6,13 +6,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.masai.login.module.Admin;
-import com.masai.login.module.AdminDTO;
-import com.masai.login.module.CurrentAdminSession;
-import com.masai.login.module.CurrentUserSession;
-import com.masai.login.module.User;
-import com.masai.repository.login.AdminDao;
-import com.masai.repository.login.AdminSessionDAO;
+import com.masai.model.Admin;
+import com.masai.model.AdminDTO;
+import com.masai.model.CurrentAdminSession;
+import com.masai.repository.AdminDao;
+import com.masai.repository.AdminSessionDAO;
 
 import net.bytebuddy.utility.RandomString;
 

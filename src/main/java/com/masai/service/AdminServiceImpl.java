@@ -1,14 +1,14 @@
-package com.masai.service.login;
+package com.masai.service;
 
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.masai.login.module.Admin;
-import com.masai.login.module.CurrentAdminSession;
-import com.masai.repository.login.AdminDao;
-import com.masai.repository.login.AdminSessionDAO;
+import com.masai.model.Admin;
+import com.masai.model.CurrentAdminSession;
+import com.masai.repository.AdminDao;
+import com.masai.repository.AdminSessionDAO;
 
 @Service
 public class AdminServiceImpl implements AdminService{

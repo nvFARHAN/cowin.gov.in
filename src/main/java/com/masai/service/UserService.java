@@ -1,6 +1,6 @@
-package com.masai.service.login;
+package com.masai.service;
 
-import com.masai.login.module.User;
+import com.masai.model.User;
 
 public interface UserService {
 

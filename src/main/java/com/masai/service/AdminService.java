@@ -1,6 +1,6 @@
-package com.masai.service.login;
+package com.masai.service;
 
-import com.masai.login.module.Admin;
+import com.masai.model.Admin;
 
 public interface AdminService {
 

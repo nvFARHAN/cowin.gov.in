@@ -17,25 +17,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
-import com.masai.exceptions.MemberNotFoundException;
-import com.masai.login.module.Admin;
-import com.masai.login.module.User;
-
+import com.masai.model.Admin;
 import com.masai.model.Appointment;
 import com.masai.model.IdCard;
-
 import com.masai.model.Member;
 import com.masai.model.VaccinationCenter;
 import com.masai.model.Vaccine;
 import com.masai.model.VaccineInventory;
+import com.masai.service.AdminServiceImpl;
 import com.masai.service.AppointmentService;
 import com.masai.service.IdCardService;
 import com.masai.service.MemberService;
-
-import com.masai.service.login.AdminServiceImpl;
-import com.masai.service.login.UserServiceImpl;
-
 import com.masai.service.VaccinationCenterService;
 import com.masai.service.VaccineInventoryService;
 import com.masai.service.VaccineService;
