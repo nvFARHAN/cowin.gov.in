@@ -29,26 +29,23 @@ public class VaccinationCenter {
 	@Id
 	private Integer code;
 	
-	@NotNull(message = "Center name may not be null")
+	@NotNull(message = "Center name can not be null")
 	@NotBlank(message = "Center name is Mandatory")
-	@Pattern(regexp = "^[A-Z][a-z]*")
 	private String centername;
 	
-	@NotNull(message = "City may not be null")
+	@NotNull(message = "City can not be null")
 	@NotBlank(message = "City name is Mandatory")
-	@Pattern(regexp = "^[A-Z][a-z]*")
 	private String city;
 	
-	@NotNull(message = "Address may not be null")
+	@NotNull(message = "Address can not be null")
 	@NotBlank(message = "Address is Mandatory")
 	private String address;
 	
-	@NotNull(message = "State may not be null")
+	@NotNull(message = "State can not be null")
 	@NotBlank(message = "State name is Mandatory")
-	@Pattern(regexp = "^[A-Z][a-z]*")
 	private String state;
 	
-	@NotNull(message = "Pincode may not be null")
+	@NotNull(message = "Pincode can not be null")
 	@NotBlank(message = "Pincode is Mandatory")
 	@Size(min = 6, max = 8)
 	private String pincode;

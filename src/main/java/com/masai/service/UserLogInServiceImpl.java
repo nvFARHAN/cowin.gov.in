@@ -1,6 +1,5 @@
 package com.masai.service;
 
-import java.io.FileReader;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -48,17 +47,17 @@ public class UserLogInServiceImpl implements UserLoginService{
 			
 			userSessionDAO.save(currentUserSession);
 			
-			FileReader fr=new FileReader("user.txt");
-			String dat= "";
-			int i=fr.read();
-			while( i != -1) {
-				dat=dat+(char)i;
-			System.out.print((char) i);
-			i = fr.read();
-			}
+//			FileReader fr=new FileReader("user.txt");
+//			String dat= "";
+//			int i=fr.read();
+//			while( i != -1) {
+//				dat=dat+(char)i;
+//			System.out.print((char) i);
+//			i = fr.read();
+//			}
 
-			return currentUserSession.toString()+"\n"+dat;
-			
+		//	return currentUserSession.toString()+"\n"+dat;
+			return currentUserSession.toString();
 		}
 		else {
 			return "Please Enter valid password.";
