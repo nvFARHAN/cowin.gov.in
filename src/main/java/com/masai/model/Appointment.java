@@ -8,6 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -31,11 +34,9 @@ public class Appointment {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long bookingID;
 
-//	@NotBlank(message = "Mobile Number is Mandatory")
-//	@Size(max=10,message="Moblie Number length should be 10!")
-//	@Pattern(regexp = "^[7-9][0-9]{9}$",message="Mobile No is Invalid!")
-
-//	@Digits(integer=10,fraction =0,message="moblie maximum size 10")
+	@NotBlank(message = "Mobile Number is Mandatory")
+	@Size(max=10,message="Moblie Number length should be 10!")
+	@Pattern(regexp = "^[6-9][0-9]{9}$",message="Mobile No is Invalid!")
 	private String mobileNo;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")

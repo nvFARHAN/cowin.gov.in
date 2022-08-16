@@ -33,7 +33,6 @@ public class VaccineInventory {
 	
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	@NotNull(message = "Date should not be Null")
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	private LocalDate date;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "vaccineInventory")
