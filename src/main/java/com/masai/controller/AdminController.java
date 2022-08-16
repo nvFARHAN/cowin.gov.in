@@ -8,12 +8,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.masai.exceptions.MemberNotFoundException;
+import com.masai.login.module.Admin;
+import com.masai.login.module.User;
 import com.masai.model.Member;
 import com.masai.service.IdCardService;
 import com.masai.service.MemberService;
+import com.masai.service.login.AdminServiceImpl;
+import com.masai.service.login.UserServiceImpl;
 
 @RestController
 @RequestMapping("/admin")
@@ -25,6 +30,22 @@ public class AdminController {
 	
 	@Autowired
 	private IdCardService idservice;
+	
+	@Autowired
+	private AdminServiceImpl adminServiceImpl;
+	
+	//to register admin
+		@PostMapping("/")
+		public Admin saveAdmin(@RequestBody Admin admin) {
+			return adminServiceImpl.createAdmin(admin);
+		}
+		
+		//to update admin by passing key
+		@PutMapping("/update")
+		public Admin updateAdmin(@RequestBody Admin admin, @RequestParam(required=false) String key) {
+			
+			return adminServiceImpl.updateAdmin(admin,key);
+		}
 	
 	
 
