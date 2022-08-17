@@ -10,6 +10,7 @@ import com.masai.exceptions.AppointmentExcepation;
 import com.masai.exceptions.AppointmentNotFoundExecpation;
 import com.masai.model.Appointment;
 import com.masai.model.Member;
+import com.masai.model.VaccinationCenter;
 import com.masai.model.VaccineRegistration;
 import com.masai.repository.AppointmentDao;
 
@@ -24,6 +25,9 @@ public class AppointmentServiceImp implements AppointmentService {
 
 	@Autowired
 	private MemberService memberService;
+
+	@Autowired
+	private VaccinationCenterService vaccinationCenterService;
 
 	@Override
 	public List<Appointment> getAllAppointment() {
@@ -56,6 +60,9 @@ public class AppointmentServiceImp implements AppointmentService {
 					app.setMember(m);
 					app.setDateofbooking(LocalDate.now());
 					app.setBookigStatus(true);
+					Integer id = app.getVaccinationCenter().getCode();
+					VaccinationCenter vaccinationCenter = vaccinationCenterService.getVaccineCenter(id);
+					app.setVaccinationCenter(vaccinationCenter);
 					Appointment a = appointmentDao.save(app);
 					m.getAppointments().add(a);
 					memberService.updateMember(m, m.getMemberId());

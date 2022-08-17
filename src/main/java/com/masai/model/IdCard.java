@@ -31,27 +31,24 @@ public class IdCard {
 	@Id
 	private Integer id;
 	
-	@NotNull(message = "Member name may not be null")
+	@NotNull(message = "Member name can not be null")
 	@NotBlank(message = "Member name is Mandatory")
-	@Pattern(regexp = "^[A-Z][a-z]*")
 	private String name;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	private LocalDate dob;
 
-	@NotNull(message = "Gender may not be null")
+	@NotNull(message = "Gender can not be null")
 	@Pattern(regexp = "^[A-Z][a-z]*")
 	private String gender;
 	
-	@NotNull(message = "Address may not be null")
+	@NotNull(message = "Address can not be null")
 	private String address;
 	
-	@NotNull(message = "City may not be null")
-	@Pattern(regexp = "^[A-Z][a-z]*")
+	@NotNull(message = "City can not be null")
 	private String city;
 	
 	@NotNull(message = "State may not be null")
-	@Pattern(regexp = "^[A-Z][a-z]*")
 	private String state;
 	
 	@NotNull(message = "Pincode may not be null")

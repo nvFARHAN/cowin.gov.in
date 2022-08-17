@@ -5,13 +5,9 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -28,10 +24,9 @@ import lombok.NoArgsConstructor;
 public class VaccineInventory {
 
 	@Id
-	
 	private Integer vaccineInventoryId;
-	
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	@NotNull(message = "Date should not be Null")
 	private LocalDate date;
 

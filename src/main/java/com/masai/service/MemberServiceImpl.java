@@ -49,19 +49,18 @@ public class MemberServiceImpl implements MemberService {
 		Optional<VaccineRegistration> vacc = vrDao.findById(mobileNo);
 		if (vacc.isPresent()) {
 			IdCard idcard = idDao.findByAdharcard(member.getIdCard().getAdharcard());
-			if (idcard == null) 
-			
-			{member.setVaccineRegistration(vacc.get());
-			member.setDose1Date(null);
-			member.setDose2Date(null);
-			member.setDose1Status(false);
-			member.setDose2Status(false);
-			return dao.save(member);
-			}
-				else
-					throw new MemberNotFoundException("Member is already present");	
-				}
-		 else
+			if (idcard == null)
+
+			{
+				member.setVaccineRegistration(vacc.get());
+				member.setDose1Date(null);
+				member.setDose2Date(null);
+				member.setDose1Status(false);
+				member.setDose2Status(false);
+				return dao.save(member);
+			} else
+				throw new MemberNotFoundException("Member is already present");
+		} else
 			throw new MemberNotFoundException("This MOBILE NUMBER is NOT REGISTERED:" + mobileNo);
 	}
 
@@ -197,7 +196,7 @@ public class MemberServiceImpl implements MemberService {
 						exist.setDose1Status(true);
 						Vaccine vaccine = vDao.findByvaccineName(member.getVaccine().getVaccineName());
 						exist.setVaccine(vaccine);
-						VaccineCount vc = countDao.findByvaccineId(vaccine.getVaccineid());
+						VaccineCount vc = countDao.findByvaccine(vaccine);
 						vc.setQuantity(vc.getQuantity() - 1);
 					}
 				}
@@ -212,29 +211,27 @@ public class MemberServiceImpl implements MemberService {
 				throw new MemberNotFoundException(" Dose 1 not taken");
 
 			if (member.getDose2Date() != null) {
-					LocalDate given2 = member.getDose2Date();
-					if ( given2.isBefore(present)
-							|| present.isEqual(given2) && given2.isAfter(pastDate)&&exist.getDose1Date() != null)
-						{System.out.println("call");
-						exist.setDose2Date(member.getDose2Date());
-						if (exist.getDose2Date() != null) {
-							exist.setDose2Status(true);
-							Vaccine vaccine = exist.getVaccine();
-							VaccineCount vc = countDao.findByvaccine(vaccine);
-							vc.setQuantity(vc.getQuantity() - 1);
-						}
-						
-						}
-                          
-					else if (member.getDose2Date() != null && present.isBefore(given2))
-						throw new MemberNotFoundException("Future date is given in DOSE 2 DATE area");
-					else if (member.getDose1Date() != null && pastDate.isAfter(given2))
-						throw new MemberNotFoundException("date is 3 days before the present date(DOSE 2)");
+				LocalDate given2 = member.getDose2Date();
+				if (given2.isBefore(present)
+						|| present.isEqual(given2) && given2.isAfter(pastDate) && exist.getDose1Date() != null) {
+					System.out.println("call");
+					exist.setDose2Date(member.getDose2Date());
+					if (exist.getDose2Date() != null) {
+						exist.setDose2Status(true);
+						Vaccine vaccine = exist.getVaccine();
+						VaccineCount vc = countDao.findByvaccine(vaccine);
+						vc.setQuantity(vc.getQuantity() - 1);
+					}
 
 				}
 
-			
-			
+				else if (member.getDose2Date() != null && present.isBefore(given2))
+					throw new MemberNotFoundException("Future date is given in DOSE 2 DATE area");
+				else if (member.getDose1Date() != null && pastDate.isAfter(given2))
+					throw new MemberNotFoundException("date is 3 days before the present date(DOSE 2)");
+
+			}
+
 			if (exist.getDose2Date() != null)
 				exist.setDose2Status(true);
 			return dao.save(exist);

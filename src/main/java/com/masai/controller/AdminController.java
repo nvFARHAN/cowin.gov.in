@@ -38,13 +38,12 @@ public class AdminController {
 
 	@Autowired
 	private MemberService memberService;
-	
+
 	@Autowired
 	private IdCardService idservice;
-	
+
 	@Autowired
-	private AdminServiceImpl adminServiceImpl;	
-	
+	private AdminServiceImpl adminServiceImpl;
 
 	@Autowired
 	private VaccineInventoryService vaccineInvService;
@@ -60,19 +59,19 @@ public class AdminController {
 
 	@Autowired
 	private IdCardService idCardService;
-	
-	//to register admin
-			@PostMapping("/")
-			public Admin saveAdmin(@RequestBody Admin admin) {
-				return adminServiceImpl.createAdmin(admin);
-			}
-			
-			//to update admin by passing key
-			@PutMapping("/update")
-			public Admin updateAdmin(@RequestBody Admin admin, @RequestParam(required=false) String key) {
-				
-				return adminServiceImpl.updateAdmin(admin,key);
-			}
+
+	// to register admin
+	@PostMapping("/")
+	public Admin saveAdmin(@RequestBody Admin admin) {
+		return adminServiceImpl.createAdmin(admin);
+	}
+
+	// to update admin by passing key
+	@PutMapping("/update")
+	public Admin updateAdmin(@RequestBody Admin admin, @RequestParam(required = false) String key) {
+
+		return adminServiceImpl.updateAdmin(admin, key);
+	}
 
 	@PostMapping("/vaccine_inventory")
 	public ResponseEntity<VaccineInventory> saveVaccineHandler(@RequestBody VaccineInventory vaccineInv) {
@@ -86,7 +85,7 @@ public class AdminController {
 		return new ResponseEntity<List<VaccineInventory>>(vaccineInvService.allVaccineInventory(), HttpStatus.FOUND);
 	}
 
-	@GetMapping("/vaccine_inventory/{centerid}")
+	@GetMapping("/vaccine_inventory/centerid/{centerid}")
 	public ResponseEntity<VaccineInventory> getVaccineInventoryByCenterHandler(
 			@PathVariable("centerid") Integer centerid) {
 
@@ -116,7 +115,7 @@ public class AdminController {
 				"Vaccine Inventory Deleted : " + vaccineInvService.deleteVaccineInventory(inv), HttpStatus.OK);
 	}
 
-	@GetMapping("/vaccine_inventory/{date}")
+	@GetMapping("/vaccine_inventory/date/{date}")
 	public ResponseEntity<List<VaccineInventory>> getVaccineInventoryByDate(
 			@PathVariable("date") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate date) {
 
@@ -124,7 +123,7 @@ public class AdminController {
 				HttpStatus.FOUND);
 	}
 
-	@GetMapping("/vaccine_inventory/{vaccineName}")
+	@GetMapping("/vaccine_inventory/vaccinename/{vaccineName}")
 	public ResponseEntity<List<VaccineInventory>> getVaccineInventoryByVaccine(
 			@PathVariable("vaccineName") String vaccineName) {
 
@@ -159,7 +158,7 @@ public class AdminController {
 		return new ResponseEntity<String>("Vaccine deleted : " + vaccineService.deleteVaccine(vaccine), HttpStatus.OK);
 	}
 
-	@PutMapping()
+	@PutMapping("/vaccine")
 	public ResponseEntity<Vaccine> updateVaccine(@RequestBody Vaccine vaccine) {
 		return new ResponseEntity<Vaccine>(vaccineService.updateVaccine(vaccine), HttpStatus.OK);
 	}
@@ -207,6 +206,11 @@ public class AdminController {
 	}
 
 	// member
+	@PutMapping("/member/dose/{memId}")
+	public ResponseEntity<Member> updateDoseStatus(@RequestBody Member member, @PathVariable("memId") Integer memId) {
+		return new ResponseEntity<Member>(memberService.updatedoseStatus(member, memId), HttpStatus.OK);
+	}
+
 	@GetMapping("/member/{id}")
 	public ResponseEntity<Member> getMember(@PathVariable("id") Integer idCardId) {
 		return new ResponseEntity<Member>(memberService.getMemberById(idCardId), HttpStatus.FOUND);
@@ -228,6 +232,11 @@ public class AdminController {
 				HttpStatus.OK);
 	}
 
+	@PutMapping("/member/{id}")
+	public ResponseEntity<Member> updateMember(@RequestBody Member member, @PathVariable("id") Integer mId) {
+		return new ResponseEntity<Member>(memberService.updateMember(member, mId), HttpStatus.FOUND);
+	}
+
 	// idCard
 	@GetMapping("/idcard/aadhhar/{id}")
 	public ResponseEntity<IdCard> getIdcardByAddhar(@PathVariable("id") Long id) {
@@ -237,11 +246,6 @@ public class AdminController {
 	@GetMapping("/idcard/pan/{id}")
 	public ResponseEntity<IdCard> getIdcardByAddhar(@PathVariable("id") String id) {
 		return new ResponseEntity<IdCard>(idCardService.getIdcardByPanNo(id), HttpStatus.FOUND);
-	}
-	
-	@PutMapping("/member/updatestatus/{id}")
-	public ResponseEntity<Member> updateMember(@RequestBody Member member,@PathVariable("id") Integer mId) {
-		return new ResponseEntity<Member>(memberService.updateMember(member, mId), HttpStatus.FOUND);
 	}
 
 }

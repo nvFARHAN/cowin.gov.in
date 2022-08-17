@@ -14,8 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
@@ -47,12 +45,10 @@ public class Member {
 	private boolean dose1Status;
 	private boolean dose2Status;
 
-	@JsonFormat(pattern = "dd-MM-yyyy")
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	private LocalDate dose1Date;
 
-	@JsonFormat(pattern = "dd-MM-yyyy")
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	private LocalDate dose2Date;
 
 }
