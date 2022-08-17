@@ -128,4 +128,57 @@
         "sessionEndTime": "2022-06-10T11:48:20.0109626"
     }
 ```
+### E-R Diagram Of Covid-19 Application
+---
+<img src="https://github.com/masai-course/shivam_fw17_1124/blob/master/unit-1/evaluation/WhatsApp%20Image%202022-08-10%20at%209.06.41%20PM.jpeg?raw=true" style="max-width: 100%; display: inline-block;" data-target="animated-image.originalImage">
+
+---
+
+### Swagger UI
+
+---
+
+<img src="https://github.com/masai-course/shivam_fw17_1124/blob/master/unit-1/evaluation/WhatsApp%20Image%202022-08-17%20at%2010.21.37%20AM.jpeg?raw=true" style="max-width: 100%; display: inline-block;" data-target="animated-image.originalImage">
+
+---
+
+### Login Controller
+
+---
+
+<img src="https://github.com/masai-course/shivam_fw17_1124/blob/master/unit-1/evaluation/Login.png?raw=true" style="max-width: 100%; display: inline-block;" data-target="animated-image.originalImage">
+
+---
+
+### Admin Controller
+
+---
+
+<img src="https://github.com/masai-course/shivam_fw17_1124/blob/master/unit-1/evaluation/WhatsApp%20Image%202022-08-17%20at%2010.24.11%20AM.jpeg?raw=true" style="max-width: 100%; display: inline-block;" data-target="animated-image.originalImage">
+
+---
+
+### User Controller
+
+---
+
+<img src="https://github.com/masai-course/shivam_fw17_1124/blob/master/unit-1/evaluation/User.png?raw=true" style="max-width: 100%; display: inline-block;" data-target="animated-image.originalImage">
+
+---
+
+### Model Controller
+
+---
+
+<img src="https://github.com/masai-course/shivam_fw17_1124/blob/master/unit-1/evaluation/mODELS.png?raw=true" style="max-width: 100%; display: inline-block;" data-target="animated-image.originalImage">
+
+---
+
+<img src="https://github.com/masai-course/shivam_fw17_1124/blob/master/unit-1/evaluation/Thank-you-word-cloud.jpg?raw=true" style="max-width: 100%; display: inline-block;" data-target="animated-image.originalImage">
+
+---
+
+
+
+
 
