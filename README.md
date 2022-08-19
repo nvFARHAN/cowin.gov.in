@@ -103,9 +103,9 @@
 * `DELETE /admin/delete` : Deletes the admin with passed id   -->
 
 
-### Sample API Response for Customer Login
+### Sample API Response for Admin Login
 
-`POST   localhost:80211/login/customer`
+`POST   localhost:8080/login/adminlogin`
 
 * Request Body
 
@@ -119,14 +119,8 @@
 * Response
 
 ```
-    {
-        "sessionId": 3,
-        "token": "0ad57094",
-        "userId": 9,
-        "userType": "customer",
-        "sessionStartTime": "2022-06-10T10:48:20.0109626",
-        "sessionEndTime": "2022-06-10T11:48:20.0109626"
-    }
+   CurrentAdminSession(id=11, adminId=10, uuid=ZaVLaK, localDateTime=2022-08-17T11:13:42.772910500)
+   
 ```
 ### E-R Diagram Of Covid-19 Application
 ---
