@@ -103,15 +103,15 @@
 * `DELETE /admin/delete` : Deletes the admin with passed id   -->
 
 
-### Sample API Response for Customer Login
+### Sample API Response for Admin Login
 
-`POST   localhost:80211/login/customer`
+`POST   localhost:8080/login/adminlogin`
 
 * Request Body
 
 ```
     {
-        "mobileId": "85022457580",
+        "mobileNo": "7056319981",
         "password": "Clickme@007"
     }
 ```
@@ -119,13 +119,60 @@
 * Response
 
 ```
-    {
-        "sessionId": 3,
-        "token": "0ad57094",
-        "userId": 9,
-        "userType": "customer",
-        "sessionStartTime": "2022-06-10T10:48:20.0109626",
-        "sessionEndTime": "2022-06-10T11:48:20.0109626"
-    }
+   CurrentAdminSession(id=11, adminId=10, uuid=ZaVLaK, localDateTime=2022-08-17T11:13:42.772910500)
+   
 ```
+### E-R Diagram Of Covid-19 Application
+---
+<img src="https://github.com/shivamgarg796/Spring-work/blob/master/Images/Er-Diagram.jpeg?raw=true" style="max-width: 100%; display: inline-block;" data-target="animated-image.originalImage">
+
+---
+
+### Swagger UI
+
+---
+
+<img src="https://github.com/shivamgarg796/Spring-work/blob/master/Images/Swagger-ui.jpeg?raw=true" style="max-width: 100%; display: inline-block;" data-target="animated-image.originalImage">
+
+---
+
+### Login Controller
+
+---
+
+<img src="https://github.com/shivamgarg796/Spring-work/blob/master/Images/Login.png?raw=true" style="max-width: 100%; display: inline-block;" data-target="animated-image.originalImage">
+
+---
+
+### Admin Controller
+
+---
+
+<img src="https://github.com/shivamgarg796/Spring-work/blob/master/Images/Admin-Controller.jpeg?raw=true" style="max-width: 100%; display: inline-block;" data-target="animated-image.originalImage">
+
+---
+
+### User Controller
+
+---
+
+<img src="https://github.com/shivamgarg796/Spring-work/blob/master/Images/User.png?raw=true" style="max-width: 100%; display: inline-block;" data-target="animated-image.originalImage">
+
+---
+
+### Model Controller
+
+---
+
+<img src="https://github.com/shivamgarg796/Spring-work/blob/master/Images/mODELS.png?raw=true" style="max-width: 100%; display: inline-block;" data-target="animated-image.originalImage">
+
+---
+
+<img src="https://github.com/shivamgarg796/Spring-work/blob/master/Images/Thank-you-word-cloud.jpg?raw=true" style="max-width: 100%; display: inline-block;" data-target="animated-image.originalImage">
+
+---
+
+
+
+
 
