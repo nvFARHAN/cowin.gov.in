@@ -10,15 +10,19 @@ import org.springframework.stereotype.Service;
 import com.masai.exceptions.MemberNotFoundException;
 import com.masai.model.AdharCard;
 import com.masai.model.Appointment;
+import com.masai.model.CurrentAdminSession;
+import com.masai.model.CurrentUserSession;
 import com.masai.model.IdCard;
 import com.masai.model.Member;
 import com.masai.model.PanCard;
 import com.masai.model.Vaccine;
 import com.masai.model.VaccineCount;
 import com.masai.model.VaccineRegistration;
+import com.masai.repository.AdminSessionDAO;
 import com.masai.repository.AppointmentDao;
 import com.masai.repository.IdCardDao;
 import com.masai.repository.MemberDao;
+import com.masai.repository.UserSessionDAO;
 import com.masai.repository.VaccineCountDao;
 import com.masai.repository.VaccineDao;
 import com.masai.repository.VaccineRegistrationDao;
@@ -43,9 +47,25 @@ public class MemberServiceImpl implements MemberService {
 
 	@Autowired
 	VaccineCountDao countDao;
+	
+	@Autowired
+	private AdminSessionDAO adminSessionDAO;
+	
+	@Autowired
+	private UserSessionDAO userSessionDAO;
 
 	@Override
-	public Member addMemberbyMobileNo(Member member, String mobileNo) throws MemberNotFoundException {
+	public Member addMemberbyMobileNo(Member member, String mobileNo,String key) throws MemberNotFoundException {
+		
+		 Optional<CurrentUserSession> optCurrUser= userSessionDAO.findByUuid(key);
+			
+			if(!optCurrUser.isPresent()) {
+				
+				throw new RuntimeException("Unauthorised access");
+			}
+	
+		
+		
 		Optional<VaccineRegistration> vacc = vrDao.findById(mobileNo);
 		if (vacc.isPresent()) {
 			IdCard idcard = idDao.findByAdharcard(member.getIdCard().getAdharcard());
@@ -65,7 +85,17 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public Member updateMember(Member member, Integer mid) throws MemberNotFoundException {
+	public Member updateMember(Member member, Integer mid,String key) throws MemberNotFoundException {
+	
+		 Optional<CurrentAdminSession> optCurrAdmin= adminSessionDAO.findByUuid(key);
+		 Optional<CurrentUserSession> optCurrUser= userSessionDAO.findByUuid(key);
+			
+			if(!optCurrAdmin.isPresent()&&!optCurrUser.isPresent()) {
+				
+				throw new RuntimeException("Unauthorised access");
+			}
+			
+		
 		Optional<Member> mId = dao.findById(mid);
 		if (mId.isPresent()) {
 			Member exist = mId.get();
@@ -100,7 +130,17 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public Member getMemberById(Integer idcardid) throws MemberNotFoundException {
+	public Member getMemberById(Integer idcardid,String key) throws MemberNotFoundException {
+		
+		 Optional<CurrentAdminSession> optCurrAdmin= adminSessionDAO.findByUuid(key);
+		 Optional<CurrentUserSession> optCurrUser= userSessionDAO.findByUuid(key);
+			
+			if(!optCurrAdmin.isPresent()&&!optCurrUser.isPresent()) {
+				
+				throw new RuntimeException("Unauthorised access");
+			}
+			
+		
 		Optional<IdCard> idcard = idDao.findById(idcardid);
 		if (idcard != null) {
 			Member mbyId = dao.findByIdCard(idcard);
@@ -115,7 +155,16 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public boolean deleteMember(Integer mid) throws MemberNotFoundException {
+	public boolean deleteMember(Integer mid,String key) throws MemberNotFoundException {
+		
+		 Optional<CurrentUserSession> optCurrUser= userSessionDAO.findByUuid(key);
+			
+			if(!optCurrUser.isPresent()) {
+				
+				throw new RuntimeException("Unauthorised access");
+			}
+	
+		
 		Optional<Member> mId = dao.findById(mid);
 		if (mId.isPresent()) {
 			Member exist = mId.get();
@@ -132,7 +181,15 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public Member getMemberByPanNo(String panNo) throws MemberNotFoundException {
+	public Member getMemberByPanNo(String panNo,String key) throws MemberNotFoundException {
+	
+		 Optional<CurrentAdminSession> optCurrAdmin= adminSessionDAO.findByUuid(key);
+			
+			if(!optCurrAdmin.isPresent()) {
+				
+				throw new RuntimeException("Unauthorised access");
+			}
+		
 		IdCard idcard = idDao.findByPancard(new PanCard(panNo));
 		if (idcard != null) {
 			Optional<IdCard> id = idDao.findById(idcard.getId());
@@ -146,7 +203,16 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public boolean deleteMemberRecord(Member member) throws MemberNotFoundException {
+	public boolean deleteMemberRecord(Member member,String key) throws MemberNotFoundException {
+		
+		 Optional<CurrentAdminSession> optCurrAdmin= adminSessionDAO.findByUuid(key);
+			
+			if(!optCurrAdmin.isPresent()) {
+				
+				throw new RuntimeException("Unauthorised access");
+			}
+		
+		
 		Optional<Member> mId = dao.findById(member.getMemberId());
 		if (mId.isPresent()) {
 			Member exist = mId.get();
@@ -165,7 +231,14 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public Member getMemberByAdharNo(Long adharno) throws MemberNotFoundException {
+	public Member getMemberByAdharNo(Long adharno,String key) throws MemberNotFoundException {
+		 Optional<CurrentAdminSession> optCurrAdmin= adminSessionDAO.findByUuid(key);
+			
+			if(!optCurrAdmin.isPresent()) {
+				
+				throw new RuntimeException("Unauthorised access");
+			}
+		
 		IdCard idcard = idDao.findByAdharcard(new AdharCard(adharno));
 		Optional<IdCard> idcard1 = idDao.findById(idcard.getId());
 		if (idcard1 != null) {
@@ -180,7 +253,15 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public Member updatedoseStatus(Member member, Integer mid) throws MemberNotFoundException {
+	public Member updatedoseStatus(Member member, Integer mid,String key) throws MemberNotFoundException {
+		
+		 Optional<CurrentAdminSession> optCurrAdmin= adminSessionDAO.findByUuid(key);
+			
+			if(!optCurrAdmin.isPresent()) {
+				
+				throw new RuntimeException("Unauthorised access");
+			}
+			
 		Optional<Member> mId = dao.findById(mid);
 		if (mId.isPresent()) {
 			Member exist = mId.get();

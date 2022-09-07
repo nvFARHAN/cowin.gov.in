@@ -7,7 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.masai.exceptions.VaccineNotFoundException;
+import com.masai.model.CurrentAdminSession;
+import com.masai.model.CurrentUserSession;
 import com.masai.model.Vaccine;
+import com.masai.repository.AdminSessionDAO;
+import com.masai.repository.UserSessionDAO;
 import com.masai.repository.VaccineDao;
 
 @Service
@@ -17,10 +21,25 @@ public class VaccineServiceImpl implements VaccineService {
 
 	@Autowired
 	private VaccineDao dao;
+	
+	@Autowired
+	private AdminSessionDAO adminSessionDAO;
+	
+	@Autowired
+	private UserSessionDAO userSessionDAO;
 
 	@Override
-	public List<Vaccine> allVaccine() {
+	public List<Vaccine> allVaccine(String key) {
 
+		 Optional<CurrentAdminSession> optCurrAdmin= adminSessionDAO.findByUuid(key);
+		 Optional<CurrentUserSession> optCurrUser= userSessionDAO.findByUuid(key);
+			
+			if(!optCurrAdmin.isPresent()&&!optCurrUser.isPresent()) {
+				
+				throw new RuntimeException("Unauthorised access");
+			}
+			
+			
 		List<Vaccine> list = dao.findAll();
 
 		if (list.size() > 0)
@@ -30,8 +49,15 @@ public class VaccineServiceImpl implements VaccineService {
 	}
 
 	@Override
-	public Vaccine getVaccineByName(String VaccineName) {
+	public Vaccine getVaccineByName(String VaccineName,String key) {
 
+		 Optional<CurrentAdminSession> optCurrAdmin= adminSessionDAO.findByUuid(key);
+			
+			if(!optCurrAdmin.isPresent()) {
+				
+				throw new RuntimeException("Unauthorised access");
+			}
+	
 		
 		Vaccine vaccine = dao.findByvaccineName(VaccineName);
 		
@@ -41,8 +67,15 @@ public class VaccineServiceImpl implements VaccineService {
 	}
 
 	@Override
-	public Vaccine getVaccineById(Integer vaccineId) {
+	public Vaccine getVaccineById(Integer vaccineId,String key) {
 
+		 Optional<CurrentAdminSession> optCurrAdmin= adminSessionDAO.findByUuid(key);
+			
+			if(!optCurrAdmin.isPresent()) {
+				
+				throw new RuntimeException("Unauthorised access");
+			}
+	
 		Optional<Vaccine> opt = dao.findById(vaccineId);
 
 		if (opt.isPresent())
@@ -53,8 +86,15 @@ public class VaccineServiceImpl implements VaccineService {
 	}
 
 	@Override
-	public Vaccine addVaccine(Vaccine vaccine) {
+	public Vaccine addVaccine(Vaccine vaccine,String key) {
 
+		 Optional<CurrentAdminSession> optCurrAdmin= adminSessionDAO.findByUuid(key);
+			
+			if(!optCurrAdmin.isPresent()) {
+				
+				throw new RuntimeException("Unauthorised access");
+			}
+	
 		Vaccine vacc = dao.findByvaccineName(vaccine.getVaccineName());
 		
 		if(vacc == null) {
@@ -66,8 +106,15 @@ public class VaccineServiceImpl implements VaccineService {
 	}
 
 	@Override
-	public Vaccine updateVaccine(Vaccine vaccine) {
+	public Vaccine updateVaccine(Vaccine vaccine,String key) {
 
+		 Optional<CurrentAdminSession> optCurrAdmin= adminSessionDAO.findByUuid(key);
+			
+			if(!optCurrAdmin.isPresent()) {
+				
+				throw new RuntimeException("Unauthorised access");
+			}
+	
 		Optional<Vaccine> opt = dao.findById(vaccine.getVaccineid());
 
 		if (opt.isPresent()) {
@@ -77,7 +124,14 @@ public class VaccineServiceImpl implements VaccineService {
 	}
 
 	@Override
-	public boolean deleteVaccine(Vaccine vaccine) {
+	public boolean deleteVaccine(Vaccine vaccine,String key) {
+		 Optional<CurrentAdminSession> optCurrAdmin= adminSessionDAO.findByUuid(key);
+			
+			if(!optCurrAdmin.isPresent()) {
+				
+				throw new RuntimeException("Unauthorised access");
+			}
+	
 		Optional<Vaccine> opt = dao.findById(vaccine.getVaccineid());
 
 		if (opt.isPresent()) {

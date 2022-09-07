@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService{
 //					throw new RuntimeException("No user found");
 //				}
 //		userDao.save(user);
-		System.out.println("out");
+		//System.out.println("out");
 		 Optional<CurrentUserSession> optCurrUser= userSessionDAO.findByUuid(key);
 		
 			if(!optCurrUser.isPresent()) {

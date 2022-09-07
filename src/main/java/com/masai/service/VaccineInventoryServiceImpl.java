@@ -10,9 +10,11 @@ import org.springframework.stereotype.Service;
 
 import com.masai.exceptions.VaccineInventoryNotFoundException;
 import com.masai.exceptions.VaccineNotFoundException;
+import com.masai.model.CurrentAdminSession;
 import com.masai.model.VaccinationCenter;
 import com.masai.model.VaccineCount;
 import com.masai.model.VaccineInventory;
+import com.masai.repository.AdminSessionDAO;
 import com.masai.repository.VaccinationCenterDao;
 import com.masai.repository.VaccineCountDao;
 import com.masai.repository.VaccineInventoryDao;
@@ -31,10 +33,20 @@ public class VaccineInventoryServiceImpl implements VaccineInventoryService {
 
 	@Autowired
 	private VaccinationCenterDao vctDao;
+	
+	@Autowired
+	private AdminSessionDAO adminSessionDAO;
 
 	@Override
-	public VaccineInventory saveVaccineInventory(VaccineInventory vaccineInv) {
-
+	public VaccineInventory saveVaccineInventory(VaccineInventory vaccineInv, String key) {
+		
+		 Optional<CurrentAdminSession> optCurrAdmin= adminSessionDAO.findByUuid(key);
+			
+			if(!optCurrAdmin.isPresent()) {
+				
+				throw new RuntimeException("Unauthorised access");
+			}
+			
 		Optional<VaccineInventory> opt = vaccineInvDao.findById(vaccineInv.getVaccineInventoryId());
 		if (opt.isPresent()) {
 			throw new VaccineInventoryNotFoundException("VaccineInventory already exists!");
@@ -58,8 +70,14 @@ public class VaccineInventoryServiceImpl implements VaccineInventoryService {
 	}
 
 	@Override
-	public List<VaccineInventory> allVaccineInventory() {
+	public List<VaccineInventory> allVaccineInventory(String key) {
 
+		Optional<CurrentAdminSession> optCurrAdmin= adminSessionDAO.findByUuid(key);
+		
+		if(!optCurrAdmin.isPresent()) {
+			
+			throw new RuntimeException("Unauthorised access");
+		}
 		List<VaccineInventory> vaccineInventoryList = vaccineInvDao.findAll();
 		if (vaccineInventoryList.size() > 0) {
 			return vaccineInventoryList;
@@ -69,8 +87,16 @@ public class VaccineInventoryServiceImpl implements VaccineInventoryService {
 	}
 
 	@Override
-	public VaccineInventory getVaccineInventoryByCenter(Integer centerid) {
-		VaccinationCenter vc = vaccineCenterService.getVaccineCenter(centerid);
+	public VaccineInventory getVaccineInventoryByCenter(Integer centerid,String key) {
+
+		Optional<CurrentAdminSession> optCurrAdmin= adminSessionDAO.findByUuid(key);
+		
+		if(!optCurrAdmin.isPresent()) {
+			
+			throw new RuntimeException("Unauthorised access");
+		}
+		
+		VaccinationCenter vc = vaccineCenterService.getVaccineCenter(centerid,key);
 		if (vc == null) {
 			throw new VaccineInventoryNotFoundException("Vaccine Inventory not found!");
 		}
@@ -78,7 +104,13 @@ public class VaccineInventoryServiceImpl implements VaccineInventoryService {
 	}
 
 	@Override
-	public VaccineInventory addVaccineCount(VaccineInventory inv, Integer vaccineId) {
+	public VaccineInventory addVaccineCount(VaccineInventory inv, Integer vaccineId,String key) {
+		Optional<CurrentAdminSession> optCurrAdmin= adminSessionDAO.findByUuid(key);
+		
+		if(!optCurrAdmin.isPresent()) {
+			
+			throw new RuntimeException("Unauthorised access");
+		}
 		Optional<VaccineInventory> opt = vaccineInvDao.findById(inv.getVaccineInventoryId());
 
 		if (opt.isPresent()) {
@@ -103,9 +135,17 @@ public class VaccineInventoryServiceImpl implements VaccineInventoryService {
 
 	}
 
+	
 	@Override
-	public VaccineInventory updateVaccineInventory(VaccineInventory vaccineInv) {
-
+	public VaccineInventory updateVaccineInventory(VaccineInventory vaccineInv,String key) {
+		
+		Optional<CurrentAdminSession> optCurrAdmin= adminSessionDAO.findByUuid(key);
+		
+		if(!optCurrAdmin.isPresent()) {
+			
+			throw new RuntimeException("Unauthorised access");
+		}
+		
 		Optional<VaccineInventory> vacInvOpt = vaccineInvDao.findById(vaccineInv.getVaccineInventoryId());
 		if (vacInvOpt.isPresent()) {
 
@@ -129,8 +169,16 @@ public class VaccineInventoryServiceImpl implements VaccineInventoryService {
 	}
 
 	@Override
-	public boolean deleteVaccineInventory(VaccineInventory inv) {
+	public boolean deleteVaccineInventory(VaccineInventory inv,String key) {
 
+
+		Optional<CurrentAdminSession> optCurrAdmin= adminSessionDAO.findByUuid(key);
+		
+		if(!optCurrAdmin.isPresent()) {
+			
+			throw new RuntimeException("Unauthorised access");
+		}
+		
 		boolean flag = false;
 
 		Optional<VaccineInventory> vacInvOpt = vaccineInvDao.findById(inv.getVaccineInventoryId());
@@ -144,9 +192,17 @@ public class VaccineInventoryServiceImpl implements VaccineInventoryService {
 
 	}
 
+	
 	@Override
-	public List<VaccineInventory> getVaccineInventoryByDate(LocalDate date) {
+	public List<VaccineInventory> getVaccineInventoryByDate(LocalDate date,String key) {
 
+		Optional<CurrentAdminSession> optCurrAdmin= adminSessionDAO.findByUuid(key);
+		
+		if(!optCurrAdmin.isPresent()) {
+			
+			throw new RuntimeException("Unauthorised access");
+		}
+		
 		List<VaccineInventory> vacInvList = vaccineInvDao.findByDate(date);
 		if (vacInvList.size() > 0) {
 			return vacInvList;
@@ -155,8 +211,15 @@ public class VaccineInventoryServiceImpl implements VaccineInventoryService {
 	}
 
 	@Override
-	public List<VaccineInventory> getVaccineInventoryByVaccine(String vaccineName) {
+	public List<VaccineInventory> getVaccineInventoryByVaccine(String vaccineName,String key) {
 
+		Optional<CurrentAdminSession> optCurrAdmin= adminSessionDAO.findByUuid(key);
+		
+		if(!optCurrAdmin.isPresent()) {
+			
+			throw new RuntimeException("Unauthorised access");
+		}
+		
 		List<VaccineInventory> vaccineInventoryList = vaccineInvDao.findAll();
 		if (vaccineInventoryList.size() == 0) {
 			throw new VaccineInventoryNotFoundException("List empty, need to add Inventory first!");

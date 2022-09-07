@@ -67,87 +67,87 @@ public class UserController {
 	}
 
 	@PostMapping("/vaccine_registration/{mobNo}")
-	public ResponseEntity<VaccineRegistration> saveVaccineRegistrationHandler(@PathVariable("mobNo") String mobNo) {
+	public ResponseEntity<VaccineRegistration> saveVaccineRegistrationHandler(@PathVariable("mobNo") String mobNo,@RequestParam String key) {
 
-		return new ResponseEntity<VaccineRegistration>(vaccineRegistrationService.addVaccineRegistration(mobNo),
+		return new ResponseEntity<VaccineRegistration>(vaccineRegistrationService.addVaccineRegistration(mobNo,key),
 				HttpStatus.CREATED);
 
 	}
 
 	@GetMapping("/vaccine_registration/{mobNo}")
-	public ResponseEntity<VaccineRegistration> getVaccineRegistration(@PathVariable("mobNo") String mobNo) {
-		return new ResponseEntity<VaccineRegistration>(vaccineRegistrationService.getVaccineRegistration(mobNo),
+	public ResponseEntity<VaccineRegistration> getVaccineRegistration(@PathVariable("mobNo") String mobNo,@RequestParam String key) {
+		return new ResponseEntity<VaccineRegistration>(vaccineRegistrationService.getVaccineRegistration(mobNo,key),
 				HttpStatus.FOUND);
 	}
 
 	@PutMapping("/vaccine_registration/{mobNo}")
 	public ResponseEntity<VaccineRegistration> updateVaccineRegistration(@PathVariable("mobNo") String mobNo,
-			@RequestBody VaccineRegistration reg) {
+			@RequestBody VaccineRegistration reg,@RequestParam String key) {
 		return new ResponseEntity<VaccineRegistration>(
-				vaccineRegistrationService.updateVaccineRegistration(mobNo, reg.getMobileno()), HttpStatus.OK);
+				vaccineRegistrationService.updateVaccineRegistration(mobNo, reg.getMobileno(),key), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/vaccine_registration/{mobNo}")
-	public ResponseEntity<Boolean> deleteVaccineRegistration(@PathVariable("mobNo") String mobNo) {
-		return new ResponseEntity<Boolean>(vaccineRegistrationService.deleteVaccineRegistration(mobNo), HttpStatus.OK);
+	public ResponseEntity<Boolean> deleteVaccineRegistration(@PathVariable("mobNo") String mobNo,@RequestParam String key) {
+		return new ResponseEntity<Boolean>(vaccineRegistrationService.deleteVaccineRegistration(mobNo,key), HttpStatus.OK);
 	}
 
 	@GetMapping("/members/{mobNo}")
-	public ResponseEntity<List<Member>> getAllMembers(@PathVariable("mobNo") String mobNo) {
-		return new ResponseEntity<List<Member>>(vaccineRegistrationService.getAllMember(mobNo), HttpStatus.FOUND);
+	public ResponseEntity<List<Member>> getAllMembers(@PathVariable("mobNo") String mobNo,@RequestParam String key) {
+		return new ResponseEntity<List<Member>>(vaccineRegistrationService.getAllMember(mobNo,key), HttpStatus.FOUND);
 	}
 
 	@PostMapping("/member/{mobNo}")
-	public ResponseEntity<Member> saveMember(@RequestBody Member member, @PathVariable("mobNo") String mobNo) {
-		return new ResponseEntity<>(memberService.addMemberbyMobileNo(member, mobNo), HttpStatus.CREATED);
+	public ResponseEntity<Member> saveMember(@RequestBody Member member, @PathVariable("mobNo") String mobNo,@RequestParam String key) {
+		return new ResponseEntity<>(memberService.addMemberbyMobileNo(member, mobNo,key), HttpStatus.CREATED);
 	}
 
 	@GetMapping("/member/{id}")
-	public ResponseEntity<Member> getMember(@PathVariable("id") Integer idCardId) {
-		return new ResponseEntity<Member>(memberService.getMemberById(idCardId), HttpStatus.FOUND);
+	public ResponseEntity<Member> getMember(@PathVariable("id") Integer idCardId,@RequestParam String key) {
+		return new ResponseEntity<Member>(memberService.getMemberById(idCardId,key), HttpStatus.FOUND);
 	}
 
 	@PutMapping("/member")
-	public ResponseEntity<Member> updateMember(@RequestBody Member member) {
-		return new ResponseEntity<Member>(memberService.updateMember(member, member.getMemberId()), HttpStatus.OK);
+	public ResponseEntity<Member> updateMember(@RequestBody Member member,@RequestParam String key) {
+		return new ResponseEntity<Member>(memberService.updateMember(member, member.getMemberId(),key), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/delete/{mid}")
-	public ResponseEntity<Boolean> deleteMember(@PathVariable("mid") Integer mid) {
-		return new ResponseEntity<Boolean>(memberService.deleteMember(mid), HttpStatus.OK);
+	public ResponseEntity<Boolean> deleteMember(@PathVariable("mid") Integer mid,@RequestParam String key) {
+		return new ResponseEntity<Boolean>(memberService.deleteMember(mid,key), HttpStatus.OK);
 	}
 
 	@GetMapping("/vaccine")
-	public ResponseEntity<List<Vaccine>> getAllVaccines() {
-		return new ResponseEntity<List<Vaccine>>(vaccineService.allVaccine(), HttpStatus.FOUND);
+	public ResponseEntity<List<Vaccine>> getAllVaccines(@RequestParam String key) {
+		return new ResponseEntity<List<Vaccine>>(vaccineService.allVaccine(key), HttpStatus.FOUND);
 	}
 
 	@GetMapping("/vaccination_centers")
-	public ResponseEntity<List<VaccinationCenter>> getVaccineCenters() {
-		return new ResponseEntity<List<VaccinationCenter>>(vaccinationCenterService.allVaccineCenters(), HttpStatus.OK);
+	public ResponseEntity<List<VaccinationCenter>> getVaccineCenters(@RequestParam String key) {
+		return new ResponseEntity<List<VaccinationCenter>>(vaccinationCenterService.allVaccineCenters(key), HttpStatus.OK);
 	}
 
 	@PostMapping("/appointment/{memId}")
 	public ResponseEntity<Appointment> bookAppointment(@PathVariable("memId") Integer memId,
-			@RequestBody Appointment appointment) {
-		Appointment a = appointmentService.addAppointment(appointment, memId);
+			@RequestBody Appointment appointment,@RequestParam String key) {
+		Appointment a = appointmentService.addAppointment(appointment, memId,key);
 		return new ResponseEntity<Appointment>(a, HttpStatus.CREATED);
 	}
 
 	@GetMapping("/appointment/{id}")
-	public ResponseEntity<Appointment> getAppointment(@PathVariable("id") Long bookingId) {
-		return new ResponseEntity<Appointment>(appointmentService.getAppointmentByBookingId(bookingId),
+	public ResponseEntity<Appointment> getAppointment(@PathVariable("id") Long bookingId,@RequestParam String key) {
+		return new ResponseEntity<Appointment>(appointmentService.getAppointmentByBookingId(bookingId,key),
 				HttpStatus.FOUND);
 	}
 
 	@PutMapping("/appointment")
-	public ResponseEntity<Appointment> updateVaccineAppointment(@RequestBody Appointment app) {
-		return new ResponseEntity<Appointment>(appointmentService.updateAppointment(app), HttpStatus.OK);
+	public ResponseEntity<Appointment> updateVaccineAppointment(@RequestBody Appointment app,@RequestParam String key) {
+		return new ResponseEntity<Appointment>(appointmentService.updateAppointment(app,key), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/appointment/{id}")
-	public ResponseEntity<Boolean> deleteVaccineAppointment(@PathVariable("id") Long bookingId) {
-		return new ResponseEntity<Boolean>(appointmentService.deleteAppointment(bookingId), HttpStatus.OK);
+	public ResponseEntity<Boolean> deleteVaccineAppointment(@PathVariable("id") Long bookingId,@RequestParam String key) {
+		return new ResponseEntity<Boolean>(appointmentService.deleteAppointment(bookingId,key), HttpStatus.OK);
 	}
 
 }

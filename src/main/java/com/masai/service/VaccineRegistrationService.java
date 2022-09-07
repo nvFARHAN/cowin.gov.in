@@ -9,14 +9,14 @@ public interface VaccineRegistrationService {
 
 	public List<VaccineRegistration> allVaccineRegistration();
 
-	public VaccineRegistration getVaccineRegistration(String mobileNo);
+	public VaccineRegistration getVaccineRegistration(String mobileNo,String key);
 
-	public List<Member> getAllMember(String mobileNo);
+	public List<Member> getAllMember(String mobileNo,String key);
 
-	public VaccineRegistration addVaccineRegistration(String mobNo);
+	public VaccineRegistration addVaccineRegistration(String mobNo,String key);
 
-	public VaccineRegistration updateVaccineRegistration(String mobNo, String newMobNo);
+	public VaccineRegistration updateVaccineRegistration(String mobNo, String newMobNo,String key);
 
-	public boolean deleteVaccineRegistration(String mobNo);
+	public boolean deleteVaccineRegistration(String mobNo,String key);
 
 }

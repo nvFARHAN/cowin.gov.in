@@ -8,13 +8,13 @@ import com.masai.model.VaccinationCenter;
 
 public interface VaccinationCenterService {
 
-	public List<VaccinationCenter> allVaccineCenters() throws VaccineCenterException;
+	public List<VaccinationCenter> allVaccineCenters(String key) throws VaccineCenterException;
 
-	public VaccinationCenter getVaccineCenter(Integer centerid) throws VaccineCenterNotFoundException;
+	public VaccinationCenter getVaccineCenter(Integer centerid,String key) throws VaccineCenterNotFoundException;
 
-	public VaccinationCenter addVaccineCenter(VaccinationCenter center) throws VaccineCenterException;
+	public VaccinationCenter addVaccineCenter(VaccinationCenter center,String key) throws VaccineCenterException;
 
-	public VaccinationCenter updateVaccineCenter(VaccinationCenter center) throws VaccineCenterNotFoundException;
+	public VaccinationCenter updateVaccineCenter(VaccinationCenter center,String key) throws VaccineCenterNotFoundException;
 
-	public boolean deleteVaccineCenter(VaccinationCenter center) throws VaccineCenterNotFoundException;
+	public boolean deleteVaccineCenter(VaccinationCenter center,String key) throws VaccineCenterNotFoundException;
 }
