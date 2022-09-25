@@ -60,6 +60,9 @@
 
 ```
 
+## AWS Deployed link
+`http://covidvaccinerestapi-env.eba-bt8ve3ux.ap-south-1.elasticbeanstalk.com/swagger-ui/#/`
+
 ## API Root Endpoint
 
 `https://localhost:8080/`
@@ -122,6 +125,11 @@
    CurrentAdminSession(id=11, adminId=10, uuid=ZaVLaK, localDateTime=2022-08-17T11:13:42.772910500)
    
 ```
+
+## Video Explainer of flow control
+ <a href="https://drive.google.com/file/d/1ReDNdgIxdSNcn7WsV2ysIHeXEnkgZErw/view?usp=sharing">**Video Drive Link** </a>
+ 
+ 
 ### E-R Diagram Of Covid-19 Application
 ---
 <img src="https://github.com/shivamgarg796/Spring-work/blob/master/Images/Er-Diagram.jpeg?raw=true" style="max-width: 100%; display: inline-block;" data-target="animated-image.originalImage">
